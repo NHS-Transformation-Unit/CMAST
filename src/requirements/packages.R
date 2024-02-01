@@ -8,7 +8,8 @@ packages <- c("here",
               "markdown",
               "knitr",
               "scales",
-              "viridis")
+              "viridis",
+              "lubridate")
 
 
 lapply(packages, library, character.only=TRUE)
