@@ -25,20 +25,22 @@ Investigations will be taken into the data for the ICB to identify any changes i
 The data will be considered at an ICB level, and broken down at the trust and site level.
 
 ## Timeline
+| Task                        | Date       |
+|-----------------------------|------------|
+| Specification sign off      | 01/02/2024 |
+| Data extraction             | 01/02/2024 |
+| Data quality investigation  | 01/02/2024 |
+| ED attendances              | 02/02/2024 |
+| QA and review               | 05/02/2024 |
+| Review by Delivery Lead     | 06/02/2024 |
+| Feedback response           | 07/02/2024 |
+| Final deliverable           | 09/02/2024 |
 
-Specification sign off: 01/02/2024
-Data extraction: 01/02/2024
-Data quality investigation: 01/02/2024
-ED attendances: 02/02/2024
-QA and review: 05/02/2024
-Review by Delivery Lead: 06/02/2024
-Feedback response: 07/02/2024
-Final deliverable: 09/02/2024
-
-## Assumptions
+## Assumptions and Criteria
 
 The analysis will use the NHS England definition of poor mental health related attendance in ED, using SNOMED codes.
 The sites of interest are Type 1, Type 2 and Type 3 EDs.
+The dates of relevance are 1st April 2019 to 1st January 2024
 The organisations of interest are:
 - Warrington And Halton Teaching Hospitals NHS Foundation Trust
 - Wirral University Teaching Hospital NHS Foundation Trust
@@ -50,4 +52,5 @@ The organisations of interest are:
 
 ## Data source
 
-The data used will be SUS ECDS
+The data used will be the SUS Emergency Care data set.
+
