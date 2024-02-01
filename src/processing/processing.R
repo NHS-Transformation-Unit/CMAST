@@ -3,7 +3,6 @@
 Trust_Attendances <- ECDS_MH_attendances %>%
   select(Der_EC_Arrival_Date_Time,
          Provider_Name,
-         ,
          MH_Flag) %>%
   mutate(Der_EC_Arrival_Date_Time = as.Date(Der_EC_Arrival_Date_Time)) %>%
   group_by(Month = format(Der_EC_Arrival_Date_Time, "%Y-%m"),Provider_Name) %>%
