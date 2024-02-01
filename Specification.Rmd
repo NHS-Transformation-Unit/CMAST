@@ -1,7 +1,6 @@
 ---
-title: "CMAST Specification"
-author: "Simon Wickham"
-date: "2024-02-01"
+title: "Analytics Specification"
+author: "Prepared by - Simon Wickham"
 output: word_document
 ---
 
@@ -9,11 +8,14 @@ output: word_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Detail
+# Detail
 
 Specification date: 1st February 2024
+
 Analyst: Simon Wickham
-QA: Andy Wilson
+
+QA analyst: Andy Wilson
+
 Project: L00721a CMAST CYP Alliance
 
 ## Requirements
@@ -24,33 +26,66 @@ Investigations will be taken into the data for the ICB to identify any changes i
 
 The data will be considered at an ICB level, and broken down at the trust and site level.
 
+
 ## Timeline
-| Task                        | Date       |
-|-----------------------------|------------|
-| Specification sign off      | 01/02/2024 |
-| Data extraction             | 01/02/2024 |
-| Data quality investigation  | 01/02/2024 |
-| ED attendances              | 02/02/2024 |
-| QA and review               | 05/02/2024 |
-| Review by Delivery Lead     | 06/02/2024 |
-| Feedback response           | 07/02/2024 |
-| Final deliverable           | 09/02/2024 |
+| Task                             | Date       |
+|----------------------------------|------------|
+| Specification                    | 01/02/2024 |
+| Data extraction                  | 01/02/2024 |
+| Data quality investigation       | 01/02/2024 |
+| ED attendances                   | 02/02/2024 |
+| QA and review                    | 05/02/2024 |
+| Review by Delivery Lead          | 06/02/2024 |
+| Feedback response                | 07/02/2024 |
+| Final deliverable                | 09/02/2024 |
+
 
 ## Assumptions and Criteria
 
 The analysis will use the NHS England definition of poor mental health related attendance in ED, using SNOMED codes.
+
 The sites of interest are Type 1, Type 2 and Type 3 EDs.
-The dates of relevance are 1st April 2019 to 1st January 2024
+
+The cohort of patients, children and young people, are aged 17 or younger.
+
+The dates of relevance are 1st April 2019 to 1st January 2024.
+
 The organisations of interest are:
-- Warrington And Halton Teaching Hospitals NHS Foundation Trust
-- Wirral University Teaching Hospital NHS Foundation Trust
-- East Cheshire NHS Trust
-- Alder Hey Children'S NHS Foundation Trust
-- Countess Of Chester Hospital NHS Foundation Trust
-- Mid Cheshire Hospitals NHS Foundation Trust
-- Liverpool University Hospitals NHS Foundation Trust
+
+* Warrington And Halton Teaching Hospitals NHS Foundation Trust
+* Wirral University Teaching Hospital NHS Foundation Trust
+* East Cheshire NHS Trust
+* Alder Hey Children's NHS Foundation Trust
+* Countess Of Chester Hospital NHS Foundation Trust
+* Mid Cheshire Hospitals NHS Foundation Trust
+* Liverpool University Hospitals NHS Foundation Trust
+
 
 ## Data source
 
 The data used will be the SUS Emergency Care data set.
 
+
+## Analysis Outputs
+
+There are a few facets to the analysis that will be undertaken. These are:
+
+System level:
+
+* Attendances per month since Apr-2019
+  * Attendances per month in hours
+  * Attendances per month out of hours
+* Attendances per hour per day across the time period
+  * Attendances per hour per day per financial year
+
+Site level:
+
+* Attendances per month since Apr-2019
+  * Attendances per month in hours
+  * Attendances per month out of hours
+  * Attendances per month per ED type
+* Attendances per hour per day across the time period
+  * Attendances per hour per day per financial year
+  * Attendances per hour per day per financial year per ED type
+
+The data prepared per month will be used to determine the quality of the data and identify any significant changes per month that might have an impact on the interpretation.
