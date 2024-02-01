@@ -55,5 +55,5 @@ All code is stored within the `src` folder. This is then divided into:
 ## Contributors
 
 This repository has been created and developed by:
--   [Andy Wilson](https://github.com/ASW-Analyst)
-_   [Simon Wickham](https://github.com/SiWickham)
+- [Andy Wilson](https://github.com/ASW-Analyst)
+- [Simon Wickham](https://github.com/SiWickham)
