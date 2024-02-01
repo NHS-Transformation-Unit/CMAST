@@ -77,7 +77,7 @@ SELECT ECDS.[EC_Ident]
 				,'17226007' ---- adjustment disorder
 				,'50705009') THEN 1 ---- factitious disorder
 		ELSE 0 
-		END as MH_Flag 
+		END as MH_Flag
 
   FROM [NHSE_SUSPlus_Live].[dbo].[tbl_Data_SUS_EC] AS [ECDS]
 
@@ -155,4 +155,26 @@ SELECT ECDS.[EC_Ident]
   AND ECDS.[Der_Dupe_Flag] = 0
   AND ECDS.[Arrival_Planned] = 'FALSE'
   AND ECDS.[Der_Age_At_CDS_Activity_Date] < 18
-  AND ECDS.Der_Provider_Code in ('RBS', 'RJN', 'RWW', 'RBT', 'RJR', 'RBL', 'REM')
+  AND ECDS.Der_Provider_Code in ('RBS', 'RJN', 'RWW', 'RBT', 'RJR', 'RBL', 'REM', 'RBN')
+  AND (ECDS.EC_Chief_Complaint_SNOMED_CT IN ('248062006' --- self harm
+				,'272022009' --- depressive feelings 
+				,'48694002' --- feeling anxious 
+				,'248020004' --- behaviour: unsual 
+				,'6471006' -- feeling suicidal
+				,'7011001')  --- hallucinations/delusions 
+			OR ECDS.EC_Injury_Intent_SNOMED_CT = '276853009' --- self inflicted injury 
+			Or COALESCE(LEFT(Der_EC_Diagnosis_All, NULLIF(CHARINDEX(',',Der_EC_Diagnosis_All),0)-1),Der_EC_Diagnosis_All) 
+				IN ('52448006' --- dementia
+				,'2776000' --- delirium 
+				,'33449004' --- personality disorder
+				,'72366004' --- eating disorder
+				,'197480006' --- anxiety disorder
+				,'35489007' --- depressive disorder
+				,'13746004' --- bipolar affective disorder
+				,'58214004' --- schizophrenia
+				,'69322001' --- psychotic disorder
+				,'397923000' --- somatisation disorder
+				,'30077003' --- somatoform pain disorder
+				,'44376007' --- dissociative disorder
+				,'17226007' ---- adjustment disorder
+				,'50705009'))
