@@ -56,7 +56,7 @@ ggplot(Trust_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fil
 
 # Create small multiples of line charts
 
-ggplot(Site_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = EC_Department_Type, group = Provider_Site)) +
+ggplot(Site_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = Provider_Site, group = Provider_Site)) +
   geom_line(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
@@ -64,12 +64,12 @@ ggplot(Site_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = 
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "bottom",
+        legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance
 
-ggplot(Site_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fill = EC_Department_Type, group = Provider_Site)) +
+ggplot(Site_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fill = In_hours, group = Provider_Site)) +
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
@@ -82,7 +82,7 @@ ggplot(Site_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fill
 
 # Weekly distribution of attendance
 
-ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill = EC_Department_Type, group = Provider_Site)) +
+ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill = Provider_Site, group = Provider_Site)) +
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
@@ -90,5 +90,5 @@ ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill
        x = "Hour of the day",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "bottom",
+        legend.position = "none",
         plot.background = element_rect(fill = "white"))
