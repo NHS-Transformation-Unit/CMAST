@@ -33,7 +33,7 @@ Trust_Attendances_Weekly <- ECDS_MH_attendances %>%
 
 # Trust hour of day
 
-Trust_Attendances_hourly <- ECDS_MH_attendances %>%
+Trust_Attendances_Hourly <- ECDS_MH_attendances %>%
   select(Der_EC_Arrival_Date_Time,
          Provider_Name,
          Der_Provider_Code,
@@ -85,7 +85,7 @@ Site_Attendances_Weekly <- ECDS_MH_attendances %>%
 
 # Site hour of day
 
-Site_Attendances_Weekly <- ECDS_MH_attendances %>%
+Site_Attendances_Hourly <- ECDS_MH_attendances %>%
   select(Der_EC_Arrival_Date_Time,
          Provider_Site,
          Der_Provider_Site_Code,
