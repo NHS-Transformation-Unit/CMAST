@@ -1,4 +1,30 @@
 
+# System level visuals ----------------------------------------------------
+
+# Visualising attendance time series
+
+ggplot(System_Attendances_Monthly, aes(x = Month, y = Total_attendances)) +
+  geom_line(stat = "identity") + 
+  labs(title = "Mental Health attendances",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
+       x = "Month",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom")
+
+# Weekly distribution of attendance by hour
+
+ggplot(System_Attendances_Weekly, aes(x = hour_of_day, y = Total_attendances, fill = day_of_week, group = day_of_week)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~day_of_week, scales = "free_x") +
+  labs(title = "Mental Health attendances by day",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
+       x = "Hour of the day",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "none",
+        plot.background = element_rect(fill = "white"))
+
 # Trust level visuals -----------------------------------------------------
 
 # Visualising Trusts in one line chart
@@ -6,7 +32,7 @@
 ggplot(Trust_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = Der_Provider_Code, group = Provider_Name)) +
   geom_line(stat = "identity") + 
   labs(title = "Mental Health attendances by trust",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -18,7 +44,7 @@ ggplot(Trust_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour =
   geom_line(stat = "identity") +
   facet_wrap(~Provider_Name, scales = "free_x") +
   labs(title = "Mental Health attendances by trust",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -31,7 +57,7 @@ ggplot(Trust_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fil
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Name, scales = "free_x") +
   labs(title = "Mental Health attendances by trust",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Day of the Week",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -44,7 +70,7 @@ ggplot(Trust_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fil
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Name, scales = "free_x") +
   labs(title = "Mental Health attendances by trust",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -60,7 +86,7 @@ ggplot(Site_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = 
   geom_line(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -73,7 +99,7 @@ ggplot(Site_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fill
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Day of the Week",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
@@ -86,7 +112,7 @@ ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Site, scales = "free_x") +
   labs(title = "Mental Health attendances by site",
-       caption = "Source: ECDS",
+       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
