@@ -40,7 +40,7 @@ ggplot(Trust_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fil
 
 # Weekly distribution of attendance
 
-ggplot(Trust_Attendances_hourly, aes(x = hour_of_day, y = Total_attendances, fill = Der_Provider_Code, group = Provider_Name)) +
+ggplot(Trust_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill = Der_Provider_Code, group = Provider_Name)) +
   geom_bar(stat = "identity") +
   facet_wrap(~Provider_Name, scales = "free_x") +
   labs(title = "Mental Health attendances by trust",
@@ -67,3 +67,28 @@ ggplot(Site_Attendances_Monthly, aes(x = Month, y = Total_attendances, colour = 
         legend.position = "bottom",
         plot.background = element_rect(fill = "white"))
 
+# Weekly distribution of attendance
+
+ggplot(Site_Attendances_Weekly, aes(x = day_of_week, y = Total_attendances, fill = EC_Department_Type, group = Provider_Site)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Provider_Site, scales = "free_x") +
+  labs(title = "Mental Health attendances by site",
+       caption = "Source: ECDS",
+       x = "Day of the Week",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom",
+        plot.background = element_rect(fill = "white"))
+
+# Weekly distribution of attendance
+
+ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill = EC_Department_Type, group = Provider_Site)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Provider_Site, scales = "free_x") +
+  labs(title = "Mental Health attendances by site",
+       caption = "Source: ECDS",
+       x = "Hour of the day",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom",
+        plot.background = element_rect(fill = "white"))
