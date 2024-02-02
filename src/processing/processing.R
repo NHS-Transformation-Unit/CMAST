@@ -25,10 +25,12 @@ Trust_Attendances_Weekly <- ECDS_MH_attendances %>%
          MH_Flag) %>%
   mutate(Der_EC_Arrival_Date_Time = ymd_hms(Der_EC_Arrival_Date_Time),
          "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
-         "hour_of_day" = hour(Der_EC_Arrival_Date_Time)) %>%
+         "hour_of_day" = hour(Der_EC_Arrival_Date_Time),
+         "In_hours" = ifelse(hour_of_day < 8 | hour_of_day > 18, "Out of hours", "In hours")) %>%
   group_by(day_of_week,
            Provider_Name,
-           Der_Provider_Code) %>%
+           Der_Provider_Code,
+           In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # Trust hour of day
@@ -76,11 +78,13 @@ Site_Attendances_Weekly <- ECDS_MH_attendances %>%
          MH_Flag) %>%
   mutate(Der_EC_Arrival_Date_Time = ymd_hms(Der_EC_Arrival_Date_Time),
          "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
-         "hour_of_day" = hour(Der_EC_Arrival_Date_Time)) %>%
+         "hour_of_day" = hour(Der_EC_Arrival_Date_Time),
+         "In_hours" = ifelse(hour_of_day < 8 | hour_of_day > 18, "Out of hours", "In hours")) %>%
   group_by(day_of_week,
            Provider_Site,
            Der_Provider_Site_Code,
-           EC_Department_Type) %>%
+           EC_Department_Type,
+           In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # Site hour of day
