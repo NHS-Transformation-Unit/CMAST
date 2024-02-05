@@ -11,5 +11,4 @@ packages <- c("here",
               "viridis",
               "lubridate")
 
-
 lapply(packages, library, character.only=TRUE)
