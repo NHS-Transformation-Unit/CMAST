@@ -1,4 +1,10 @@
 
+# Cleaning Extract --------------------------------------------------------
+
+ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
+  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%d/%m/%Y %H:%M"))
+
+
 # Filter Parameters -------------------------------------------------------
 
 SD_19_20 <- ymd("2019-04-01") # start date for FY 2019-20
