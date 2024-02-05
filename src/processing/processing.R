@@ -2,7 +2,8 @@
 # Cleaning Extract --------------------------------------------------------
 
 ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
-  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%d/%m/%Y %H:%M"))
+  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%d/%m/%Y %H:%M"),
+         Month = as.Date(trunc(Der_EC_Arrival_Date_Time, "month")))
 
 
 # Filter Parameters -------------------------------------------------------
@@ -20,19 +21,19 @@ ED_23_24 <- ymd("2024-04-01") # end date for FY 2023-24
 
 # System level metrics ----------------------------------------------------
 
-System_Attendances <- ECDS_MH_attendances %>%
+System_Attendances <- ECDS_MH_attendances_clean %>%
   select(Der_EC_Arrival_Date_Time,
-         EC_Conclusion_Time_Since_Arrival,
+         Month,
+         EC_Departure_Time_Since_Arrival,
          MH_Flag) %>%
-  mutate(Der_EC_Arrival_Date_Time = ymd_hms(Der_EC_Arrival_Date_Time),
-         "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
+  mutate("day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
          "hour_of_day" = hour(Der_EC_Arrival_Date_Time),
-         "In_hours" = ifelse(hour_of_day < 8 | hour_of_day > 18, "Out of hours", "In hours"))
+         "In_hours" = ifelse(hour_of_day < 8 | hour_of_day >= 18, "Out of hours", "In hours"))
 
 # System monthly attendances
 
 System_Attendances_Monthly <- System_Attendances %>%
-  group_by(Month = floor_date(Der_EC_Arrival_Date_Time, "month")) %>%
+  group_by(Month) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # System monthly attendances in vs out
