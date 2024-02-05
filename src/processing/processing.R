@@ -1,4 +1,17 @@
 
+# Filter Parameters -------------------------------------------------------
+
+SD_19_20 <- ymd("2019-04-01") # start date for FY 2019-20
+ED_19_20 <- ymd("2020-04-01") # end date for FY 2019-20
+SD_20_21 <- ymd("2020-04-01") # start date for FY 2020-21
+ED_20_21 <- ymd("2021-04-01") # end date for FY 2020-21
+SD_21_22 <- ymd("2021-04-01") # start date for FY 2021-22
+ED_21_22 <- ymd("2022-04-01") # end date for FY 2021-22
+SD_22_23 <- ymd("2022-04-01") # start date for FY 2022-23
+ED_22_23 <- ymd("2023-04-01") # end date for FY 2022-23
+SD_23_24 <- ymd("2023-04-01") # start date for FY 2023-24
+ED_23_24 <- ymd("2024-04-01") # end date for FY 2023-24
+
 # Trust level metrics -----------------------------------------------------
 
 Trust_Attendances <- ECDS_MH_attendances %>%
@@ -94,9 +107,61 @@ System_Attendances_Monthly <- System_Attendances %>%
   group_by(Month = floor_date(Der_EC_Arrival_Date_Time, "month")) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
-# Trust day of week
+# System monthly attendances in vs out
+
+System_Attendances_Monthly_Hours <- System_Attendances %>%
+  group_by(Month = floor_date(Der_EC_Arrival_Date_Time, "month"),
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week
 
 System_Attendances_Weekly <- System_Attendances %>%
+  group_by(day_of_week,
+           hour_of_day,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week (Apr19 to Mar20)
+
+System_Attendances_Weekly_19 <- System_Attendances %>%
+  filter(Der_EC_Arrival_Date_Time >= SD_19_20 & Der_EC_Arrival_Date_Time < ED_19_20) %>%
+  group_by(day_of_week,
+           hour_of_day,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week (Apr20 to Mar21)
+
+System_Attendances_Weekly_20 <- System_Attendances %>%
+  filter(Der_EC_Arrival_Date_Time >= SD_20_21 & Der_EC_Arrival_Date_Time < ED_20_21) %>%
+  group_by(day_of_week,
+           hour_of_day,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week (Apr21 to Mar22)
+
+System_Attendances_Weekly_21 <- System_Attendances %>%
+  filter(Der_EC_Arrival_Date_Time >= SD_21_22 & Der_EC_Arrival_Date_Time < ED_21_22) %>%
+  group_by(day_of_week,
+           hour_of_day,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week (Apr22 to Mar23)
+
+System_Attendances_Weekly_22 <- System_Attendances %>%
+  filter(Der_EC_Arrival_Date_Time >= SD_22_23 & Der_EC_Arrival_Date_Time < ED_22_23) %>%
+  group_by(day_of_week,
+           hour_of_day,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System day of week (Apr23 to Mar24)
+
+System_Attendances_Weekly_23 <- System_Attendances %>%
+  filter(Der_EC_Arrival_Date_Time >= SD_23_24 & Der_EC_Arrival_Date_Time < ED_23_24) %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
