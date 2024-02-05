@@ -1,0 +1,98 @@
+---
+title: "Paediatric Mental Health Attendances - CMAST"
+author: "NHS Transformation Unit"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+ html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    toc_collapsed: true
+    css: ../config/nhs_tu_theme.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, out.width = '100%')
+library(here)
+
+source(paste0(here(), "/src/requirements/packages.R"))
+source(paste0(here(), "/src/config/palette.R"))
+source(paste0(here(), "/src/config/tu_ggplot_themes.R"))
+source(paste0(here(), "/src/load/load.R"))
+source(paste0(here(), "/src/processing/processing.R"))
+source(paste0(here(), "/src/visualising/system_level.R"))
+
+```
+
+## Introduction
+***
+
+This analysis has been undertaken to understand recent trends and changes in the volume and waiting times for paediatric patients attending the Emergency Department (ED) due to mental health reasons across CMAST providers. The analysis uses the [Emergency Care Dataset](https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-sets/emergency-care-data-set-ecds) (ECDS) as the data source and the national definition of mental health attendances in ED was used to identify relevant activity. The analysis looks back over activity since April 2019 through to December 2023. More information on the methods used can be found in the [Methodology](#Methodology) section.
+
+This report contains the following analysis:
+
+* __Mental health attendances as ED__: Analysis into the number of attendances across CMAST, individual providers and at site level. This is further broken down to explore when presentations occur by day of the week and hour of the day.
+
+* __Waiting times in ED__: Analysis into how long patients are waiting in the department across CMAST, individual providers and at site level.
+
+* __Outcomes from ED__: Analysis into where patients go to when they leave the department, such as admission rates.
+
+* __Data Quality__: Exploration of the data quality of ECDS used in this analysis.
+
+<br/>
+
+## Attendances at ED
+***
+This section explores how attendances at the ED for mental health reasons have been changing since pre-pandemic.
+
+### Attendance volumes {.tabset .tabset-fade}
+
+#### CMAST
+
+The plot below shows the number of attendances to the ED each month at CMAST providers.
+```{r activity_system_ts, dpi = 1000}
+
+plot_act_ts_system
+
+```
+
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site Level
+
+<br/>
+
+### Arrival patterns - out of hours {.tabset .tabset-fade}
+
+#### CMAST
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site Level
+
+<br/>
+
+### Arrival patterns - arrival hour {.tabset .tabset-fade}
+
+#### CMAST
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site Level
+
+<br/>
+
+## Methodology {#Methodology}
