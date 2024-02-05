@@ -32,8 +32,8 @@ ggplot(System_Attendances_Weekly, aes(x = hour_of_day, y = Total_attendances, fi
        caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance by hour (19-20)
@@ -45,8 +45,8 @@ ggplot(System_Attendances_Weekly_19, aes(x = hour_of_day, y = Total_attendances,
        caption = "Source: SUS Emergency Care data Apr-19 to Mar-20",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance by hour (20-21)
@@ -58,8 +58,8 @@ ggplot(System_Attendances_Weekly_20, aes(x = hour_of_day, y = Total_attendances,
        caption = "Source: SUS Emergency Care data Apr-20 to Mar-21",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance by hour (21-22)
@@ -71,8 +71,8 @@ ggplot(System_Attendances_Weekly_21, aes(x = hour_of_day, y = Total_attendances,
        caption = "Source: SUS Emergency Care data Apr-21 to Mar-22",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance by hour (22-23)
@@ -84,8 +84,8 @@ ggplot(System_Attendances_Weekly_22, aes(x = hour_of_day, y = Total_attendances,
        caption = "Source: SUS Emergency Care data Apr-22 to Mar-23",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Weekly distribution of attendance by hour (23-24)
@@ -97,8 +97,8 @@ ggplot(System_Attendances_Weekly_23, aes(x = hour_of_day, y = Total_attendances,
        caption = "Source: SUS Emergency Care data Apr-23 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 # Trust level visuals -----------------------------------------------------
@@ -149,8 +149,8 @@ ggplot(Trust_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fil
        caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
 
 
@@ -191,6 +191,6 @@ ggplot(Site_Attendances_Hourly, aes(x = hour_of_day, y = Total_attendances, fill
        caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
        x = "Hour of the day",
        y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "none",
+  scale_x_continuous(breaks = seq(0, 24, by = 6)) +
+  theme(legend.position = "none",
         plot.background = element_rect(fill = "white"))
