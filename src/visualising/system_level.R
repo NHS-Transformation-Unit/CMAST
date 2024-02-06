@@ -36,13 +36,19 @@ plot_act_profile_dh <-ggplot(System_Attendances_day_hour, aes(x = hour_of_day, y
 # Activity by in hours and out of hours -----------------------------------
 
 plot_act_system_in_out <-ggplot(System_Attendances_Monthly_Hours, aes(x = Month, y = Total_attendances, fill = In_hours)) +
-  geom_bar(stat = "identity") + 
-  labs(title = "Mental Health attendances",
-       caption = "Source: SUS Emergency Care data Apr-19 to Dec-23",
+  geom_area(alpha = 0.5) + 
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b") +
+  scale_y_continuous(breaks = seq(0, 450, 50)) +
+  labs(title = "Paediatric Mental Health attendances to ED",
+       caption = "Source: SUS ECDS",
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "bottom")
+        legend.position = "bottom") +
+  scale_fill_manual(values = c(palette_tu[1],
+                               palette_tu[5]),
+                    name = "In vs Out of hours") +
+  selected_theme(hex_col = palette_tu[1])
 
 
 # Weekly distribution of attendance by hour by FY -------------------------------
