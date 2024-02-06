@@ -27,7 +27,19 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
                                                "248020004",
                                                "6471006",
                                                "7011001") ~ "Chief Complaint",
-                               TRUE ~ "Other")) %>%
+                               TRUE ~ "EC Diagnosis"),
+         "onward_destination" = case_when(DischargeDestinationDescription %in% c("Discharge to home (procedure)",
+                                                                                 "Discharge to nursing home (procedure)",
+                                                                                 "Discharge to police custody (procedure)",
+                                                                                 "Discharge to residential home (procedure)",
+                                                                                 "Patient discharged, to legal custody (procedure)") ~ "Discharged",
+                                          DischargeDestinationDescription %in% c("Emergency department discharge to ambulatory emergency care service (procedure)",
+                                                                                 "Emergency department discharge to emergency department short stay ward (procedure)") ~ "ED admission",
+                                          DischargeDestinationDescription %in% c("Emergency department discharge to high dependency unit (procedure)",
+                                                                                 "Emergency department discharge to intensive care unit (procedure)",
+                                                                                 "Discharge to ward (procedure)") ~ "Hospital admission",
+                                          DischargeDestinationDescription == "Patient transfer, to another health care facility (procedure)" ~ "Provider transfer",
+                                          DischargeDestinationDescription == "NULL" ~ "Unknown")) %>%
   mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")))
 
 
@@ -128,11 +140,24 @@ System_Attendances_Weekly_23 <- ECDS_MH_attendances_clean %>%
            In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
-# System data quality
+# System data quality time series
 
-System_Data_Quality <- ECDS_MH_attendances_clean %>%
+System_Data_Quality_ts <- ECDS_MH_attendances_clean %>%
   group_by(Month,
            Trigger) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System data quality total
+
+System_Data_Quality <- ECDS_MH_attendances_clean %>%
+  group_by(Trigger) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination Time Series
+
+System_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
+  group_by(Month,
+           DischargeDestinationDescription) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # Trust level metrics -----------------------------------------------------
