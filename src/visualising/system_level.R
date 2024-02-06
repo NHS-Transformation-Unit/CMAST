@@ -10,7 +10,8 @@ plot_act_ts_system <-ggplot(System_Attendances_Monthly, aes(x = Month, y = Total
            x = as.Date("2020-02-01"),
            y = 375,
            label = "Start of pandemic",
-           hjust = 1) +
+           hjust = 1,
+           vjust = 1) +
   labs(title = "Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
@@ -44,7 +45,8 @@ plot_act_system_in_out <-ggplot(System_Attendances_Monthly_Hours, aes(x = Month,
            x = as.Date("2020-02-01"),
            y = 375,
            label = "Start of pandemic",
-           hjust = 1) +
+           hjust = 1,
+           vjust = 1) +
   labs(title = "Paediatric Mental Health attendances to ED",
        caption = "Source: SUS ECDS",
        x = "Month",
@@ -148,3 +150,104 @@ plot_act_wait_ts <-ggplot(System_Attendances_Monthly,aes(x = Month)) +
        x = "Month",
        y = "Total minutes spent in department") +
   selected_theme(hex_col = palette_tu[1]) 
+
+
+# Data Quality Time Series ------------------------------------------------------------
+
+plot_diagnosis_dq_ts <-ggplot(System_Data_Quality_ts, aes(x = Month, y = Total_attendances, fill = Trigger)) +
+  geom_area(alpha = 0.5) + 
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_y_continuous(breaks = seq(0, 450, 50)) +
+  geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2020-02-01"),
+           y = 375,
+           label = "Start of pandemic",
+           hjust = 1,
+           vjust = 1) +
+  labs(title = "Method of flagging the attendance as Mental Health",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom") +
+  scale_fill_manual(values = c(palette_tu[1],
+                               palette_tu[5],
+                               palette_tu[7]),
+                    name = "Method of flagging") +
+  selected_theme(hex_col = palette_tu[1])
+
+
+# Data Quality ------------------------------------------------------------
+
+plot_diagnosis_dq <-ggplot(System_Data_Quality, aes(x = "", y = Total_attendances, fill = Trigger)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  theme(legend.position = "right") +
+  labs(title = "Method of flagging the attendance as Mental Health",
+       caption = "Source: SUS ECDS") +
+  selected_theme(hex_col = palette_tu[1])
+
+
+# ED Outcomes Time Series -------------------------------------------------
+
+plot_act_system_outcomes_ts <-ggplot(System_ED_Outcome_ts, aes(x = Month, y = Total_attendances, fill = onward_destination)) +
+  geom_area(alpha = 0.5) + 
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_y_continuous(breaks = seq(0, 450, 50)) +
+  geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2020-02-01"),
+           y = 375,
+           label = "Start of pandemic",
+           hjust = 1,
+           vjust = 1) +
+  labs(title = "Outcome of a Paediatric Mental Health attendance at ED",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total Attendances") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom") +
+  scale_fill_manual(values = c(palette_tu[1],
+                               palette_tu[3],
+                               palette_tu[5],
+                               palette_tu[7],
+                               palette_tu[2]),
+                    name = "Onward destination") +
+  selected_theme(hex_col = palette_tu[1])
+
+
+# ED Outcome day of week --------------------------------------------------
+
+plot_outcome_profile_d <-ggplot(System_ED_Outcome_d, aes(x = day_of_week, y = Total_attendances, fill = day_of_week)) +
+  geom_bar(stat = "identity") + 
+  facet_wrap(~onward_destination, scales = "free_x") +
+  labs(title = "Outcome of a Paediatric Mental Health attendance at ED",
+       subtitle = "CMAST Providers",
+       caption = "Source: SUS ECDS",
+       x = "Day of the week",
+       y = "Number of attendances") +
+  scale_fill_manual(values = c(palette_tu[1],
+                               palette_tu[2],
+                               palette_tu[3],
+                               palette_tu[4],
+                               palette_tu[5],
+                               palette_tu[6],
+                               palette_tu[7])) +
+  selected_theme(hex_col = palette_tu[1]) +
+  theme(legend.position = "none")
+
+# ED Outcome hour of day --------------------------------------------------
+
+plot_outcome_profile_h <-ggplot(System_ED_Outcome_h, aes(x = hour_of_day, y = Total_attendances)) +
+  geom_bar(stat = "identity") + 
+  scale_x_continuous(breaks = seq(0, 24, 2), expand = c(0,0)) +
+  facet_wrap(~onward_destination, scales = "free_x") +
+  labs(title = "Outcome of a Paediatric Mental Health attendance at ED",
+       subtitle = "CMAST Providers",
+       caption = "Source: SUS ECDS",
+       x = "Hour of the day",
+       y = "Number of attendances") +
+  selected_theme(hex_col = palette_tu[1]) +
+  theme(legend.position = "none")
