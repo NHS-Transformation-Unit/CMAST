@@ -2,7 +2,7 @@
 # Cleaning Extract --------------------------------------------------------
 
 ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
-  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%d/%m/%Y %H:%M"),
+  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%Y-%m-%d %H:%M"),
          Month = as.Date(trunc(Der_EC_Arrival_Date_Time, "month")),
          "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
          "hour_of_day" = hour(Der_EC_Arrival_Date_Time),
@@ -15,21 +15,7 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
   mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")))
 
 
-# Filter Parameters -------------------------------------------------------
-
-SD_19_20 <- ymd("2019-04-01") # start date for FY 2019-20
-ED_19_20 <- ymd("2020-04-01") # end date for FY 2019-20
-SD_20_21 <- ymd("2020-04-01") # start date for FY 2020-21
-ED_20_21 <- ymd("2021-04-01") # end date for FY 2020-21
-SD_21_22 <- ymd("2021-04-01") # start date for FY 2021-22
-ED_21_22 <- ymd("2022-04-01") # end date for FY 2021-22
-SD_22_23 <- ymd("2022-04-01") # start date for FY 2022-23
-ED_22_23 <- ymd("2023-04-01") # end date for FY 2022-23
-SD_23_24 <- ymd("2023-04-01") # start date for FY 2023-24
-ED_23_24 <- ymd("2024-04-01") # end date for FY 2023-24
-
 # System level metrics ----------------------------------------------------
-
 
 # System monthly attendances
 
@@ -80,7 +66,7 @@ System_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
 # System day of week (Apr19 to Mar20)
 
 System_Attendances_Weekly_19 <- ECDS_MH_attendances_clean %>%
-  filter(Der_EC_Arrival_Date_Time >= SD_19_20 & Der_EC_Arrival_Date_Time < ED_19_20) %>%
+  filter(FYear == "2019/20") %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
