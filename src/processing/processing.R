@@ -33,6 +33,7 @@ System_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
 # Combined attendances week and hour
 
 System_Attendances_day_hour <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(day_of_week, hour_of_day) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -44,6 +45,7 @@ System_Attendances_day_hour <- ECDS_MH_attendances_clean %>%
 # System monthly attendances in vs out
 
 System_Attendances_Monthly_Hours <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Month, In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -55,6 +57,7 @@ System_Attendances_Monthly_Hours <- ECDS_MH_attendances_clean %>%
 # System day of week
 
 System_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
