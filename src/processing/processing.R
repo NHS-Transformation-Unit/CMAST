@@ -3,6 +3,7 @@
 
 ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
   mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%Y-%m-%d %H:%M"),
+         EC_Departure_Time_Since_Arrival = as.numeric(EC_Departure_Time_Since_Arrival),
          Month = as.Date(trunc(Der_EC_Arrival_Date_Time, "month")),
          "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
          "hour_of_day" = hour(Der_EC_Arrival_Date_Time),
@@ -20,6 +21,7 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
 # System monthly attendances
 
 System_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -75,7 +77,7 @@ System_Attendances_Weekly_19 <- ECDS_MH_attendances_clean %>%
 # System day of week (Apr20 to Mar21)
 
 System_Attendances_Weekly_20 <- ECDS_MH_attendances_clean %>%
-  filter(Der_EC_Arrival_Date_Time >= SD_20_21 & Der_EC_Arrival_Date_Time < ED_20_21) %>%
+  filter(FYear == "2020/21") %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
@@ -84,7 +86,7 @@ System_Attendances_Weekly_20 <- ECDS_MH_attendances_clean %>%
 # System day of week (Apr21 to Mar22)
 
 System_Attendances_Weekly_21 <- ECDS_MH_attendances_clean %>%
-  filter(Der_EC_Arrival_Date_Time >= SD_21_22 & Der_EC_Arrival_Date_Time < ED_21_22) %>%
+  filter(FYear == "2021/22") %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
@@ -93,7 +95,7 @@ System_Attendances_Weekly_21 <- ECDS_MH_attendances_clean %>%
 # System day of week (Apr22 to Mar23)
 
 System_Attendances_Weekly_22 <- ECDS_MH_attendances_clean %>%
-  filter(Der_EC_Arrival_Date_Time >= SD_22_23 & Der_EC_Arrival_Date_Time < ED_22_23) %>%
+  filter(FYear == "2022/23") %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
@@ -102,7 +104,7 @@ System_Attendances_Weekly_22 <- ECDS_MH_attendances_clean %>%
 # System day of week (Apr23 to Mar24)
 
 System_Attendances_Weekly_23 <- ECDS_MH_attendances_clean %>%
-  filter(Der_EC_Arrival_Date_Time >= SD_23_24 & Der_EC_Arrival_Date_Time < ED_23_24) %>%
+  filter(FYear == "2023/24") %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
