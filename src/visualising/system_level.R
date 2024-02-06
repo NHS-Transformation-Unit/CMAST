@@ -4,7 +4,7 @@
 plot_act_ts_system <-ggplot(System_Attendances_Monthly, aes(x = Month, y = Total_attendances)) +
   geom_line(col = palette_tu[4]) + 
   scale_y_continuous(breaks = seq(0, 450, 50)) +
-  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b") +
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
   annotate(geom = "label",
            x = as.Date("2020-02-01"),
@@ -37,8 +37,14 @@ plot_act_profile_dh <-ggplot(System_Attendances_day_hour, aes(x = hour_of_day, y
 
 plot_act_system_in_out <-ggplot(System_Attendances_Monthly_Hours, aes(x = Month, y = Total_attendances, fill = In_hours)) +
   geom_area(alpha = 0.5) + 
-  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b") +
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(breaks = seq(0, 450, 50)) +
+  geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2020-02-01"),
+           y = 375,
+           label = "Start of pandemic",
+           hjust = 1) +
   labs(title = "Paediatric Mental Health attendances to ED",
        caption = "Source: SUS ECDS",
        x = "Month",
@@ -117,3 +123,28 @@ plot_act_profile_dh_2324 <-ggplot(System_Attendances_Weekly_23, aes(x = hour_of_
        x = "Month",
        y = "Arrival Hour") +
   selected_theme(hex_col = palette_tu[1])
+
+
+
+# Waiting times in ED -----------------------------------------------------
+
+plot_act_wait_ts <-ggplot(System_Attendances_Monthly,aes(x = Month)) +
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Percentile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 1.2) + 
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
+  geom_hline(yintercept = 240, linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2019-04-01"),
+           y = 240,
+           label = "4 hour target",
+           hjust = -0.1) + 
+  scale_y_continuous(breaks = seq(0, 700, 50)) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  labs(title = "Waiting Times of Paediatric Mental Health attendances to ED",
+       subtitle = "CMAST Providers",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total minutes spent in department") +
+  selected_theme(hex_col = palette_tu[1]) 
