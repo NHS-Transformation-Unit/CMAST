@@ -28,8 +28,8 @@ plot_act_profile_dh <-ggplot(System_Attendances_day_hour, aes(x = hour_of_day, y
   labs(title = "Arrival Profile of Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
-       x = "Month",
-       y = "Arrival Hour") +
+       x = "Arrival Hour",
+       y = "Number of attendances") +
   selected_theme(hex_col = palette_tu[1])  
 
 
