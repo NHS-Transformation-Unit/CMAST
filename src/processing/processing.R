@@ -39,7 +39,8 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
                                                                                  "Emergency department discharge to intensive care unit (procedure)",
                                                                                  "Discharge to ward (procedure)") ~ "Hospital admission",
                                           DischargeDestinationDescription == "Patient transfer, to another health care facility (procedure)" ~ "Provider transfer",
-                                          DischargeDestinationDescription == "NULL" ~ "Unknown")) %>%
+                                          DischargeDestinationDescription == "NULL" ~ "Unknown",
+                                          is.na(DischargeDestinationDescription) ~ "Unknown")) %>%
   mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")))
 
 
@@ -157,7 +158,21 @@ System_Data_Quality <- ECDS_MH_attendances_clean %>%
 
 System_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
   group_by(Month,
-           DischargeDestinationDescription) %>%
+           onward_destination) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination day of week
+
+System_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
+  group_by(day_of_week,
+           onward_destination) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination hour of day
+
+System_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
+  group_by(hour_of_day,
+           onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # Trust level metrics -----------------------------------------------------
