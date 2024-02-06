@@ -118,6 +118,7 @@ System_Attendances_Weekly_23 <- ECDS_MH_attendances_clean %>%
 # Trust monthly attendances
 
 Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Month,
            Provider_Name,
            Der_Provider_Code) %>%
@@ -131,6 +132,7 @@ Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
 # Trust day of week
 
 Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(day_of_week,
            Provider_Name,
            Der_Provider_Code,
@@ -145,6 +147,7 @@ Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
 # Trust hour of day
 
 Trust_Attendances_Hourly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
     group_by(hour_of_day,
            Provider_Name,
            Der_Provider_Code) %>%
@@ -161,6 +164,7 @@ Trust_Attendances_Hourly <- ECDS_MH_attendances_clean %>%
 # Site monthly attendances
 
 Site_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Month,
            Provider_Site,
            Der_Provider_Site_Code,
@@ -175,6 +179,7 @@ Site_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
 # Site day of week
 
 Site_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(day_of_week,
            Provider_Site,
            Der_Provider_Site_Code,
@@ -190,6 +195,7 @@ Site_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
 # Site hour of day
 
 Site_Attendances_Hourly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(hour_of_day,
            Provider_Site,
            Der_Provider_Site_Code,
