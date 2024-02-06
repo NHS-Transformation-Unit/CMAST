@@ -85,6 +85,14 @@ plot_act_ts_system
 
 #### CMAST
 
+The plot below shows the number of attendances to the ED of CMAST providers depending on the day of the week and the hour of the day.
+```{r activity_system_dh, dpi = 1000}
+
+plot_act_profile_dh
+
+```
+
+
 <br/>
 
 #### Provider
