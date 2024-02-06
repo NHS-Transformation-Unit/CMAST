@@ -95,4 +95,20 @@ plot_act_ts_system
 
 <br/>
 
+## Waiting times in Emergency Department
+***
+
+This section provides an overview of how long patients waited in the Emergency Department from their arrival to their departure.
+
+<br/>
+
 ## Methodology {#Methodology}
+
+### Data Sources
+This analysis has been undertaken on the [Emergency Care Dataset](https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-sets/emergency-care-data-set-ecds) (ECDS).
+
+### Definition of Mental Health Attendances
+This analysis has defined attendances at the Emergency Department as _mental health related_ using the national definition from NHS England. This definition has been defined by the Mental Health Analytics team at NHS England with the information on the codes used [here](https://github.com/nhsengland/MHSDS/blob/f649d73d5573b4d3ab63215bb15fedd5c195e4c9/UEMH%20dashboard/ECDS%20Crisis#L66). This definition flags an attendance as a _mental health_ attendance when either the **Chief Complaint Code**, **Diagnosis** or the **Injury Intent Code** is one of the recognised codes. For the purposes of this analysis _Paediatric attendances_ are those where the patient was 17 years or under at the date of their arrival to the Emergency Department.
+
+### Analysis
+This analysis has been undertaken in the open-source programming language R. The codebase for this analysis is available to view on its dedicated [Github repository](https://github.com/NHS-Transformation-Unit/CMAST).
