@@ -71,6 +71,14 @@ plot_act_ts_system
 
 #### CMAST
 
+The plot below shows the number of attendances to the ED each month at CMAST providers.
+```{r activity_system_io, dpi = 1000}
+
+plot_act_system_in_out
+
+```
+
+
 <br/>
 
 #### Provider
@@ -107,6 +115,78 @@ plot_act_profile_dh
 ***
 
 This section provides an overview of how long patients waited in the Emergency Department from their arrival to their departure.
+
+### Waiting times pattern {.tabset .tabset-fade}
+
+#### CMAST
+
+The plot below shows the median time spent in the department, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range.
+```{r wait_time_system, dpi = 1000}
+
+plot_act_wait_ts
+
+```
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site
+
+<br/>
+
+## Onward destination following Emergency Department
+***
+
+This section provides an overview of where patients went following their discharge from ED.
+
+### ED outcome pattern {.tabset .tabset-fade}
+
+#### CMAST
+
+The plot below shows the outcome of patients attending ED and the onward destination, whether that be an admission, discharge or transfer to an alternate provider.
+```{r outcome_system, dpi = 1000}
+
+plot_act_system_outcomes_ts
+
+```
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site
+
+<br/>
+
+### ED outcome by day and by time {.tabset .tabset-fade}
+
+#### CMAST
+
+The plot below shows the outcome depending on the day of the week and the hour of the day.
+```{r outcome_system_day, dpi = 1000}
+
+plot_outcome_profile_d
+
+```
+
+```{r outcome_system_hour, dpi = 1000}
+
+plot_outcome_profile_h
+
+```
+
+<br/>
+
+#### Provider
+
+<br/>
+
+#### Site
 
 <br/>
 
