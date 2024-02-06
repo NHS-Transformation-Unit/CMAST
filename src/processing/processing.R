@@ -160,7 +160,6 @@ Trust_Attendances_Hourly <- ECDS_MH_attendances_clean %>%
 
 # Site level metrics ------------------------------------------------------
 
-
 # Site monthly attendances
 
 Site_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
