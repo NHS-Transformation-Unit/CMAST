@@ -12,7 +12,22 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
                              Month >= as.Date("2020-04-01") & Month <= as.Date("2021-03-31") ~ "2020/21",
                              Month >= as.Date("2021-04-01") & Month <= as.Date("2022-03-31") ~ "2021/22",
                              Month >= as.Date("2022-04-01") & Month <= as.Date("2023-03-31") ~ "2022/23",
-                             Month >= as.Date("2023-04-01") & Month <= as.Date("2024-03-31") ~ "2023/24")) %>%
+                             Month >= as.Date("2023-04-01") & Month <= as.Date("2024-03-31") ~ "2023/24"),
+         "Trigger" = case_when(EC_Chief_Complaint_SNOMED_CT %in% c("248062006", 
+                                                                   "272022009", 
+                                                                   "48694002",
+                                                                   "248020004",
+                                                                   "6471006",
+                                                                   "7011001") & 
+                                 EC_Injury_Intent_SNOMED_CT == "276853009" ~ "Chief Complaint with Injury Intent",
+                               EC_Injury_Intent_SNOMED_CT == "1234321" ~ "Injury Intent",
+                               EC_Chief_Complaint_SNOMED_CT %in% c("248062006", 
+                                               "272022009", 
+                                               "48694002",
+                                               "248020004",
+                                               "6471006",
+                                               "7011001") ~ "Chief Complaint",
+                               TRUE ~ "Other")) %>%
   mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")))
 
 
@@ -111,6 +126,13 @@ System_Attendances_Weekly_23 <- ECDS_MH_attendances_clean %>%
   group_by(day_of_week,
            hour_of_day,
            In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# System data quality
+
+System_Data_Quality <- ECDS_MH_attendances_clean %>%
+  group_by(Month,
+           Trigger) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
 # Trust level metrics -----------------------------------------------------
