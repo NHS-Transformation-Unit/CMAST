@@ -241,7 +241,7 @@ plot_outcome_profile_d <-ggplot(System_ED_Outcome_d, aes(x = day_of_week, y = To
 # ED Outcome hour of day --------------------------------------------------
 
 plot_outcome_profile_h <-ggplot(System_ED_Outcome_h, aes(x = hour_of_day, y = Total_attendances)) +
-  geom_bar(stat = "identity") + 
+  geom_area(col = palette_tu[4], fill = palette_tu[4], alpha = 0.5) + 
   scale_x_continuous(breaks = seq(0, 24, 2), expand = c(0,0)) +
   facet_wrap(~onward_destination, scales = "free_x") +
   labs(title = "Outcome of a Paediatric Mental Health attendance at ED",
