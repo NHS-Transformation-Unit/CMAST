@@ -45,6 +45,8 @@ This report contains the following analysis:
 ***
 This section explores how attendances at the ED for mental health reasons have been changing since pre-pandemic.
 
+At the CMAST level there is very little variation across the time period. There is however notable variation when comparing trusts and individual sites.
+
 ### Attendance volumes {.tabset .tabset-fade}
 
 #### CMAST
@@ -71,7 +73,7 @@ plot_act_ts_system
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED each month at CMAST providers.
+The plot below shows the number of attendances to the ED each month at CMAST providers. With the exception of the beginning of the COVID19 pandemic and some summer months, attendances and split almost half way between in hours (08:00 to 18:00) and out of hours (18:00 to 08:00).
 ```{r activity_system_io, dpi = 1000}
 
 plot_act_system_in_out
@@ -93,7 +95,7 @@ plot_act_system_in_out
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED of CMAST providers depending on the day of the week and the hour of the day.
+The plot below shows the number of attendances to the ED of CMAST providers depending on the day of the week and the hour of the day. Number of attendances follows a similar pattern for week days, with general decreases in attendances between midnight (hour 0) and 06:00, with a sharp increase between 08:00 and 10:00. After this it remains high and consistent until the approach to 20:00 where a decrease starts. Weekends see gentler trends, with Sundays showing a peak in attendances at approximately 22:00 and a low at 06:00, with almost smooth transitions between.
 ```{r activity_system_dh, dpi = 1000}
 
 plot_act_profile_dh
@@ -120,7 +122,7 @@ This section provides an overview of how long patients waited in the Emergency D
 
 #### CMAST
 
-The plot below shows the median time spent in the department, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range.
+The plot below shows the median time spent in the department, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range. The median wait time was almost always below the 4 hour A&E target, with a significant waiting time reduction from the start of the COVID19 pandemic. This started to increase and reached pre pandemic times around Jan-2021. From Apr-2021 the interquartile range and 10th to 90th Percentile range shows a significant increase, with the upper quartile boundary exceeding the 4 hour target by 2.5 hours in Oct-2021, exceeding pre pandemic highs. Median wait times, along with ranges, have seen very little change since mid 2021, with median wait times now consistently breaching the 4 hour A&E target.
 ```{r wait_time_system, dpi = 1000}
 
 plot_act_wait_ts
@@ -146,7 +148,7 @@ This section provides an overview of where patients went following their dischar
 
 #### CMAST
 
-The plot below shows the outcome of patients attending ED and the onward destination, whether that be an admission, discharge or transfer to an alternate provider.
+The plot below shows the outcome of patients attending ED and the onward destination, whether that be an admission, discharge or transfer to an alternate provider. Patient outcomes have not seen much change at the system level across the period, with the exception of reduced numbers following the start of the COVID19 pandemic. Most patients are discharged from the hospital, whether that be to their home or other place of residence or into police custody. Since Apr-2021 there have been more transfers of care per month between providers following an attendance at ED, though a significant proportion are still admitted to the hospital of presentation following an ED attendance.
 ```{r outcome_system, dpi = 1000}
 
 plot_act_system_outcomes_ts
