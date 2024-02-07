@@ -217,11 +217,23 @@ Trust_Attendances_day <- ECDS_MH_attendances_clean %>%
 
 # Trust monthly attendances in vs out
 
-Trust_Attendances_Monthly_Hours <- ECDS_MH_attendances_clean %>%
+Trust_Attendances_Monthly_Hours_in <- ECDS_MH_attendances_clean %>%
+  filter(In_hours == "In hours") %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
-           Month,
-           In_hours) %>%
+           Month) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+Trust_Attendances_Monthly_Hours_out <- ECDS_MH_attendances_clean %>%
+  filter(In_hours == "Out of hours") %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
             P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
