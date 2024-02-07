@@ -40,36 +40,17 @@ plot_act_trust_d <-ggplot(Trust_Attendances_day, aes(x = day_of_week, y = Total_
 
 # Activity by in hours and out of hours -----------------------------------
 
-plot_act_trust_in <- ggplot(Trust_Attendances_Monthly_Hours_in, aes(x = Month, y = Total_attendances, group = Provider_Name)) +
-  geom_area(col = palette_tu[1], fill = palette_tu[1], alpha = 0.5) + 
+plot_act_trust_pout <- ggplot(Trust_Attendances_Monthly_percent, aes(x = Month, y = Percent_out, group = Provider_Name)) +
+  geom_area(col = palette_tu[5], fill = palette_tu[5], alpha = 0.5) + 
   scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  scale_y_continuous(breaks = seq(0, 60, 10)) +
+  scale_y_continuous(label = percent) +
   facet_wrap(~Provider_Name) +
   labs(title = "Paediatric Mental Health attendances to ED (in hours)",
        caption = "Source: SUS ECDS",
        x = "Month",
-       y = "Total Attendances") +
+       y = "Proportion of attendances occuring out of hours") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
         legend.position = "bottom") +
-  scale_fill_manual(values = c(palette_tu[1],
-                               palette_tu[5]),
-                    name = "In vs Out of hours") +
-  selected_theme(hex_col = palette_tu[1])
-
-plot_act_trust_out <- ggplot(Trust_Attendances_Monthly_Hours_out, aes(x = Month, y = Total_attendances, group = Provider_Name)) +
-  geom_area(col = palette_tu[5], fill = palette_tu[5], alpha = 0.5) + 
-  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  scale_y_continuous(breaks = seq(0, 60, 10)) +
-  facet_wrap(~Provider_Name) +
-  labs(title = "Paediatric Mental Health attendances to ED (out of hours)",
-       caption = "Source: SUS ECDS",
-       x = "Month",
-       y = "Total Attendances") +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.position = "bottom") +
-  scale_fill_manual(values = c(palette_tu[1],
-                               palette_tu[5]),
-                    name = "In vs Out of hours") +
   selected_theme(hex_col = palette_tu[1])
 
 # Waiting times in ED -----------------------------------------------------
@@ -84,6 +65,22 @@ plot_act_wait_trust_ts <-ggplot(Trust_Attendances_Monthly,aes(x = Month, group =
   scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
   facet_wrap(~Provider_Name) +
   labs(title = "Waiting Times of Paediatric Mental Health attendances to ED",
+       subtitle = "CMAST Providers",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total minutes spent in department") +
+  selected_theme(hex_col = palette_tu[1]) 
+
+plot_act_wait_out_trust_ts <-ggplot(Trust_Attendances_Monthly_out,aes(x = Month, group = Provider_Name)) +
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Percentile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.1)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.1)+
+  geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 0.5) + 
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
+  scale_y_continuous(breaks = seq(0, 800, 200)) +
+  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  facet_wrap(~Provider_Name) +
+  labs(title = "Waiting Times of Paediatric Mental Health attendances to ED (out of hours)",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
        x = "Month",
