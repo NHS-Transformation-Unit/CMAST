@@ -58,6 +58,17 @@ System_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
             P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
 
+System_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
+  filter(In_hours == "Out of hours") %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Month) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
 # Combined attendances week and hour
 
 System_Attendances_day_hour <- ECDS_MH_attendances_clean %>%
@@ -74,13 +85,21 @@ System_Attendances_day_hour <- ECDS_MH_attendances_clean %>%
 
 System_Attendances_Monthly_Hours <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
-  group_by(Month, In_hours) %>%
+  group_by(Month,
+           In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
             P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
             P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
             P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+System_Attendances_Monthly_percent <- System_Attendances_Monthly_Hours %>%
+  select(Month,
+         In_hours, 
+         Total_attendances) %>%
+  spread(In_hours, Total_attendances) %>%
+  mutate("Percent_out" = `Out of hours` / (`Out of hours` + `In hours`))
 
 # System day of week
 
@@ -161,6 +180,24 @@ System_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
            onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
+System_ED_Outcomes_ts_admit <- System_ED_Outcome_ts %>%
+  select(Month,
+         onward_destination,
+         Total_attendances) %>%
+  spread(onward_destination, Total_attendances) %>%
+  replace_na(list(`Hospital admission` = 0, 
+                  `ED admission` = 0,
+                  `Discharged` = 0,
+                  `Provider transfer` = 0,
+                  `Unknown` = 0,
+                  `<NA>` = 0)) %>%
+  mutate("Percent_admit" = `Hospital admission` / (`Hospital admission` + 
+                                                     `ED admission` +
+                                                     `Discharged`+
+                                                     `Provider transfer` +
+                                                     `Unknown` +
+                                                     `<NA>`))
+
 # Onward Destination day of week
 
 System_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
@@ -180,6 +217,18 @@ System_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
 # Trust monthly attendances
 
 Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           Month) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+Trust_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
+  filter(In_hours == "Out of hours") %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
            Month) %>%
@@ -240,6 +289,26 @@ Trust_Attendances_Monthly_Hours_out <- ECDS_MH_attendances_clean %>%
             P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
             P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+Trust_Attendances_Monthly_Hours_in_out <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           Month,
+           In_hours) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+Trust_Attendances_Monthly_percent <- Trust_Attendances_Monthly_Hours_in_out %>%
+  select(Month,
+         Provider_Name,
+         In_hours, 
+         Total_attendances) %>%
+  spread(In_hours, Total_attendances) %>%
+  mutate("Percent_out" = `Out of hours` / (`Out of hours` + `In hours`))
 
 # Trust day of week
 
