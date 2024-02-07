@@ -46,13 +46,11 @@ This report contains the following analysis:
 ***
 This section explores how attendances at the ED for mental health reasons have been changing since pre-pandemic.
 
-At the CMAST level there is very little variation across the time period. There is however notable variation when comparing trusts and individual sites.
-
 ### Attendance volumes {.tabset .tabset-fade}
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED each month at CMAST providers.
+The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, ranging from approximately 150 per month to 400 per month (with the exception of early COVID19 pandemic data at approximately 100 in Apr-2020). Although there is significant variation in the data, there is no clear increasing or decreasing trend over time.
 ```{r activity_system_ts, dpi = 1000}
 
 plot_act_ts_system
@@ -91,19 +89,20 @@ plot_act_system_in_out
 
 <br/>
 
-#### Provider
+```{r activity_system_o, dpi = 1000}
 
-```{r activity_trust_i, dpi = 1000}
-
-plot_act_trust_in
+plot_act_system_out
 
 ```
 
 <br/>
 
-```{r activity_trust_o, dpi = 1000}
+#### Provider
 
-plot_act_trust_out
+The plot below shows the variation of out of hours attendances as a proportion of all attendances.
+```{r activity_trust_pout, dpi = 1000}
+
+plot_act_trust_pout
 
 ```
 
@@ -169,11 +168,28 @@ plot_act_wait_ts
 
 <br/>
 
+The plot below shows the median time spent in the department for out of hours attendances, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range. The change in the ranges of the above plot appears to be driven by the out of hours attendances in Apr-2021.
+```{r wait_time_system_out, dpi = 1000}
+
+plot_act_wait_out_ts
+
+```
+
+<br/>
+
 #### Provider
 
 ```{r wait_time_trust, dpi = 1000}
 
 plot_act_wait_trust_ts
+
+```
+
+<br/>
+
+```{r wait_time_trust, dpi = 1000}
+
+plot_act_wait_out_trust_ts
 
 ```
 
@@ -196,6 +212,14 @@ The plot below shows the outcome of patients attending ED and the onward destina
 ```{r outcome_system, dpi = 1000}
 
 plot_act_system_outcomes_ts
+
+```
+
+<br/>
+
+```{r outcome_system, dpi = 1000}
+
+plot_act_system_outcomes_ts_admit
 
 ```
 
