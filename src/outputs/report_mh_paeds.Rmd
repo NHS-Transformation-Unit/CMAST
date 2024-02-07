@@ -93,6 +93,20 @@ plot_act_system_in_out
 
 #### Provider
 
+```{r activity_trust_i, dpi = 1000}
+
+plot_act_trust_in
+
+```
+
+<br/>
+
+```{r activity_trust_o, dpi = 1000}
+
+plot_act_trust_out
+
+```
+
 <br/>
 
 #### Site Level
@@ -157,6 +171,12 @@ plot_act_wait_ts
 
 #### Provider
 
+```{r wait_time_trust, dpi = 1000}
+
+plot_act_wait_trust_ts
+
+```
+
 <br/>
 
 #### Site
@@ -182,6 +202,12 @@ plot_act_system_outcomes_ts
 <br/>
 
 #### Provider
+
+```{r outcome_trust, dpi = 1000}
+
+plot_act_trust_outcomes_ts
+
+```
 
 <br/>
 
