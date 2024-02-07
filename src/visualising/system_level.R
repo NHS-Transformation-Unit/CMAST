@@ -58,6 +58,25 @@ plot_act_system_in_out <-ggplot(System_Attendances_Monthly_Hours, aes(x = Month,
                     name = "In vs Out of hours") +
   selected_theme(hex_col = palette_tu[1])
 
+plot_act_system_out <-ggplot(System_Attendances_Monthly_percent, aes(x = Month, y = Percent_out)) +
+  geom_area(col = palette_tu[5], fill = palette_tu[5], alpha = 0.5) + 
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_y_continuous(label = percent) +
+  geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2020-02-01"),
+           y = 0.5,
+           label = "Start of pandemic",
+           hjust = 1,
+           vjust = 1) +
+  labs(title = "Paediatric Mental Health attendances to ED",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Proportion of attendances occuring out of hours") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom") +
+  selected_theme(hex_col = palette_tu[1])
+
 
 # Weekly distribution of attendance by hour by FY -------------------------------
 
@@ -137,11 +156,6 @@ plot_act_wait_ts <-ggplot(System_Attendances_Monthly,aes(x = Month)) +
   scale_color_manual("", values = "black") +
   scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
   geom_hline(yintercept = 240, linetype = "dashed") +
-  annotate(geom = "label",
-           x = as.Date("2019-04-01"),
-           y = 240,
-           label = "4 hour target",
-           hjust = -0.1) + 
   scale_y_continuous(breaks = seq(0, 700, 50)) +
   scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   labs(title = "Waiting Times of Paediatric Mental Health attendances to ED",
@@ -151,6 +165,21 @@ plot_act_wait_ts <-ggplot(System_Attendances_Monthly,aes(x = Month)) +
        y = "Total minutes spent in department") +
   selected_theme(hex_col = palette_tu[1]) 
 
+plot_act_wait_out_ts <-ggplot(System_Attendances_Monthly_out,aes(x = Month)) +
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Percentile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 1.2) + 
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
+  geom_hline(yintercept = 240, linetype = "dashed") +
+  scale_y_continuous(breaks = seq(0, 700, 50)) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  labs(title = "Waiting Times of Paediatric Mental Health attendances to ED (out of hours)",
+       subtitle = "CMAST Providers",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total minutes spent in department") +
+  selected_theme(hex_col = palette_tu[1]) 
 
 # Data Quality Time Series ------------------------------------------------------------
 
@@ -215,6 +244,25 @@ plot_act_system_outcomes_ts <-ggplot(System_ED_Outcome_ts, aes(x = Month, y = To
                                palette_tu[7],
                                palette_tu[2]),
                     name = "Onward destination") +
+  selected_theme(hex_col = palette_tu[1])
+
+plot_act_system_outcomes_ts_admit <-ggplot(System_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
+  geom_area(col = palette_tu[5], fill = palette_tu[5],alpha = 0.5) + 
+  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_y_continuous(label = percent) +
+  geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
+  annotate(geom = "label",
+           x = as.Date("2020-02-01"),
+           y = 0.5,
+           label = "Start of pandemic",
+           hjust = 1,
+           vjust = 1) +
+  labs(title = "Paediatric Mental Health attendance at ED that are admitted",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Proportion admitted to acute hospital") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.position = "bottom") +
   selected_theme(hex_col = palette_tu[1])
 
 
