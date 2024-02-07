@@ -181,9 +181,47 @@ System_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
 
 Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
-  group_by(Month,
-           Provider_Name,
-           Der_Provider_Code) %>%
+  group_by(Provider_Name,
+           Month) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+
+# Combined attendances week and hour
+
+Trust_Attendances_hour <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           hour_of_day) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+Trust_Attendances_day <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           day_of_week) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
+# Trust monthly attendances in vs out
+
+Trust_Attendances_Monthly_Hours <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           Month,
+           In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
             P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
@@ -195,9 +233,9 @@ Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
 
 Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
-  group_by(day_of_week,
-           Provider_Name,
-           Der_Provider_Code,
+  group_by(Provider_Name,
+           day_of_week,
+           hour_of_day,
            In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -206,19 +244,44 @@ Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
             P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
 
-# Trust hour of day
+# Trust data quality time series
 
-Trust_Attendances_Hourly <- ECDS_MH_attendances_clean %>%
-  drop_na(EC_Departure_Time_Since_Arrival) %>%
-    group_by(hour_of_day,
-           Provider_Name,
-           Der_Provider_Code) %>%
-  summarise(Total_attendances = sum(MH_Flag),
-            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
-            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
-            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
-            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
-            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+Trust_Data_Quality_ts <- ECDS_MH_attendances_clean %>%
+  group_by(Provider_Name,
+           Month,
+           Trigger) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Trust data quality total
+
+Trust_Data_Quality <- ECDS_MH_attendances_clean %>%
+  group_by(Provider_Name,
+           Trigger) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination Time Series
+
+Trust_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
+  group_by(Provider_Name,
+           Month,
+           onward_destination) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination day of week
+
+Trust_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
+  group_by(Provider_Name,
+           day_of_week,
+           onward_destination) %>%
+  summarise(Total_attendances = sum(MH_Flag))
+
+# Onward Destination hour of day
+
+Trust_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
+  group_by(Provider_Name,
+           hour_of_day,
+           onward_destination) %>%
+  summarise(Total_attendances = sum(MH_Flag))
 
 # Site level metrics ------------------------------------------------------
 
