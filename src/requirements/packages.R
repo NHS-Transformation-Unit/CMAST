@@ -10,6 +10,7 @@ packages <- c("here",
               "scales",
               "viridis",
               "lubridate",
-              "ggrepel")
+              "ggrepel",
+              "tibbletime")
 
 lapply(packages, library, character.only=TRUE)
