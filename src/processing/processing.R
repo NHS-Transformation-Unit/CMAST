@@ -2,7 +2,7 @@
 # Cleaning Extract --------------------------------------------------------
 
 ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
-  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%Y-%m-%d %H:%M"),
+  mutate(Der_EC_Arrival_Date_Time = as.POSIXct(Der_EC_Arrival_Date_Time, format = "%d/%m/%Y %H:%M"),
          EC_Departure_Time_Since_Arrival = as.numeric(EC_Departure_Time_Since_Arrival),
          Month = as.Date(trunc(Der_EC_Arrival_Date_Time, "month")),
          "day_of_week" = wday(Der_EC_Arrival_Date_Time, label = TRUE),
@@ -41,8 +41,20 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
                                           DischargeDestinationDescription == "Patient transfer, to another health care facility (procedure)" ~ "Provider transfer",
                                           DischargeDestinationDescription == "NULL" ~ "Unknown",
                                           is.na(DischargeDestinationDescription) ~ "Unknown")) %>%
-  mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")))
+  mutate(day_of_week = factor(day_of_week, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))) %>%
+  mutate(Provider_Name_Chart = case_when(Provider_Name == "ALDER HEY CHILDREN'S NHS FOUNDATION TRUST" ~ "Alder Hey",
+                                         Provider_Name == "COUNTESS OF CHESTER HOSPITAL NHS FOUNDATION TRUST" ~ "Countess of Chester",
+                                         Provider_Name == "EAST CHESHIRE NHS TRUST" ~ "East Cheshire",
+                                         Provider_Name == "LIVERPOOL UNIVERSITY HOSPITALS NHS FOUNDATION TRUST" ~ "Liverpool University",
+                                         Provider_Name == "MERSEY AND WEST LANCASHIRE TEACHING HOSPITALS NHS TRUST" ~ "Mersey and West Lancs",
+                                         Provider_Name == "MID CHESHIRE HOSPITALS NHS FOUNDATION TRUST" ~ "Mid Cheshire",
+                                         Provider_Name == "WARRINGTON AND HALTON TEACHING HOSPITALS NHS FOUNDATION TRUST" ~ "Warrington & Halton",
+                                         Provider_Name == "WIRRAL UNIVERSITY TEACHING HOSPITAL NHS FOUNDATION TRUST" ~ "Wirral University"))
 
+
+# Rolling 12 Function -----------------------------------------------------
+
+mean_roll_12 <- rollify(mean, window = 12)
 
 # System level metrics ----------------------------------------------------
 
@@ -56,7 +68,8 @@ System_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
             P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
             P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
-            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90)) %>%
+  mutate(Attendances_Rolling_12 = mean_roll_12(Total_attendances))
 
 System_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
   filter(In_hours == "Out of hours") %>%
@@ -219,18 +232,21 @@ System_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
 Trust_Attendances_Monthly <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
             P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
             P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
             P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
-            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90)) %>%
+  mutate(Attendances_Rolling_12 = mean_roll_12(Total_attendances))
 
 Trust_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
   filter(In_hours == "Out of hours") %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -245,6 +261,7 @@ Trust_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
 Trust_Attendances_hour <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            hour_of_day) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -256,6 +273,7 @@ Trust_Attendances_hour <- ECDS_MH_attendances_clean %>%
 Trust_Attendances_day <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            day_of_week) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -270,6 +288,7 @@ Trust_Attendances_Monthly_Hours_in <- ECDS_MH_attendances_clean %>%
   filter(In_hours == "In hours") %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -282,6 +301,7 @@ Trust_Attendances_Monthly_Hours_out <- ECDS_MH_attendances_clean %>%
   filter(In_hours == "Out of hours") %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month) %>%
   summarise(Total_attendances = sum(MH_Flag),
             P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
@@ -293,6 +313,7 @@ Trust_Attendances_Monthly_Hours_out <- ECDS_MH_attendances_clean %>%
 Trust_Attendances_Monthly_Hours_in_out <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month,
            In_hours) %>%
   summarise(Total_attendances = sum(MH_Flag),
@@ -305,6 +326,7 @@ Trust_Attendances_Monthly_Hours_in_out <- ECDS_MH_attendances_clean %>%
 Trust_Attendances_Monthly_percent <- Trust_Attendances_Monthly_Hours_in_out %>%
   select(Month,
          Provider_Name,
+         Provider_Name_Chart,
          In_hours, 
          Total_attendances) %>%
   spread(In_hours, Total_attendances) %>%
@@ -315,6 +337,7 @@ Trust_Attendances_Monthly_percent <- Trust_Attendances_Monthly_Hours_in_out %>%
 Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            day_of_week,
            hour_of_day,
            In_hours) %>%
@@ -329,6 +352,7 @@ Trust_Attendances_Weekly <- ECDS_MH_attendances_clean %>%
 
 Trust_Data_Quality_ts <- ECDS_MH_attendances_clean %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month,
            Trigger) %>%
   summarise(Total_attendances = sum(MH_Flag))
@@ -337,6 +361,7 @@ Trust_Data_Quality_ts <- ECDS_MH_attendances_clean %>%
 
 Trust_Data_Quality <- ECDS_MH_attendances_clean %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Trigger) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
@@ -344,6 +369,7 @@ Trust_Data_Quality <- ECDS_MH_attendances_clean %>%
 
 Trust_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            Month,
            onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
@@ -352,6 +378,7 @@ Trust_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
 
 Trust_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            day_of_week,
            onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
@@ -360,6 +387,7 @@ Trust_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
 
 Trust_ED_Outcome_h <- ECDS_MH_attendances_clean %>%
   group_by(Provider_Name,
+           Provider_Name_Chart,
            hour_of_day,
            onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
