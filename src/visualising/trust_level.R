@@ -1,18 +1,21 @@
 
 # Activity Time Series ----------------------------------------------------
 
-plot_act_ts_trust <-ggplot(Trust_Attendances_Monthly, aes(x = Month, y = Total_attendances, group = Provider_Name)) +
-  geom_line(col = palette_tu[4]) + 
-  facet_wrap(~Provider_Name) +
-  scale_y_continuous(breaks = seq(0, 200, 50)) +
-  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
+plot_act_ts_trust <-ggplot(Trust_Attendances_Monthly, aes(x = Month)) +
+  geom_line(aes(y = Total_attendances, color = "1.Total_attendances", linetype = "1.Total_attendances")) + 
+  geom_line(aes(y = Attendances_Rolling_12, color = "2.Rolling 12 months", linetype = "2.Rolling 12 months")) +
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_colour_manual(name = "", values = c(palette_tu[4], palette_tu[7]), labels = c("Total Attendances", "Rolling 12 Month Average")) +
+  scale_linetype_manual(name = "", values = c("solid", "dashed"), labels = c("Total Attendances", "Rolling 12 Month Average")) +
+  facet_wrap(~Provider_Name_Chart, scales = "free", ncol = 4) +
   labs(title = "Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Total Attendances") +
-  selected_theme(hex_col = palette_tu[1])
+  theme_tu_white_facet(hex_col = palette_tu[1])
 
+plot_act_ts_trust
 
 # Activity Profile --------------------------------------------------------
 
