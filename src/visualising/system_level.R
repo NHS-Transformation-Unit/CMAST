@@ -1,17 +1,21 @@
 
 # Activity Time Series ----------------------------------------------------
 
-plot_act_ts_system <-ggplot(System_Attendances_Monthly, aes(x = Month, y = Total_attendances)) +
-  geom_line(col = palette_tu[4]) + 
+plot_act_ts_system <-ggplot(System_Attendances_Monthly, aes(x = Month)) +
+  geom_line(aes(y = Total_attendances, color = "1.Total_attendances", linetype = "1.Total_attendances")) + 
+  geom_line(aes(y = Attendances_Rolling_12, color = "2.Rolling 12 months", linetype = "2.Rolling 12 months")) +
   scale_y_continuous(breaks = seq(0, 450, 50)) +
   scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
   annotate(geom = "label",
-           x = as.Date("2020-02-01"),
+           x = as.Date("2020-03-01"),
            y = 375,
            label = "Start of pandemic",
            hjust = 1,
-           vjust = 1) +
+           vjust = 1,
+           size = 3) +
+  scale_colour_manual(name = "", values = c(palette_tu[4], palette_tu[7]), labels = c("Total Attendances", "Rolling 12 Month Average")) +
+  scale_linetype_manual(name = "", values = c("solid", "dashed"), labels = c("Total Attendances", "Rolling 12 Month Average")) +
   labs(title = "Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
@@ -19,6 +23,7 @@ plot_act_ts_system <-ggplot(System_Attendances_Monthly, aes(x = Month, y = Total
        y = "Total Attendances") +
   selected_theme(hex_col = palette_tu[1])
 
+plot_act_ts_system
 
 # Activity Profile --------------------------------------------------------
 
