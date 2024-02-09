@@ -37,7 +37,6 @@ ggplot(Trust_Attendances_day_hour_fil, aes(x = hour_of_day, y = Total_attendance
 
 }
 
-plot_act_trust_dh_profile("R")
 
 plot_act_trust_h <-ggplot(Trust_Attendances_hour, aes(x = hour_of_day, y = Total_attendances, group = Provider_Name)) +
   geom_area(col = palette_tu[4], fill = palette_tu[4], alpha = 0.5) + 
