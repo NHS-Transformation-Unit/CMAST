@@ -86,9 +86,9 @@ plot_act_wait_trust_ts <-ggplot(Trust_Attendances_Monthly,aes(x = Month, group =
   geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 0.5) + 
   scale_color_manual("", values = "black") +
   scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
-  scale_y_continuous(breaks = seq(0, 800, 200)) +
-  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  facet_wrap(~Provider_Name) +
+  scale_y_continuous(breaks = seq(0, 1000, 200)) +
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4) +
   labs(title = "Waiting Times of Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
@@ -101,12 +101,28 @@ plot_act_wait_out_trust_ts <-ggplot(Trust_Attendances_Monthly_out,aes(x = Month,
   geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.1)+
   geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 0.5) + 
   scale_color_manual("", values = "black") +
-  scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
-  scale_y_continuous(breaks = seq(0, 800, 200)) +
-  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  facet_wrap(~Provider_Name) +
-  labs(title = "Waiting Times of Paediatric Mental Health attendances to ED (out of hours)",
-       subtitle = "CMAST Providers",
+  scale_fill_manual("", values = c("#ae825a", "#F9BA81")) +
+  scale_y_continuous(breaks = seq(0, 1400, 200)) +
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4) +
+  labs(title = "Waiting Times in ED",
+       subtitle = "CMAST Providers - Out-of-hours",
+       caption = "Source: SUS ECDS",
+       x = "Month",
+       y = "Total minutes spent in department") +
+  selected_theme(hex_col = palette_tu[1])
+
+plot_act_wait_in_trust_ts <-ggplot(Trust_Attendances_Monthly_in,aes(x = Month, group = Provider_Name)) +
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Percentile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.1)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.1)+
+  geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 0.5) + 
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = c("#40742c", "#98d480")) +
+  scale_y_continuous(breaks = seq(0, 1200, 200)) +
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4) +
+  labs(title = "Waiting Times in ED",
+       subtitle = "CMAST Providers - In-hours",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Total minutes spent in department") +
