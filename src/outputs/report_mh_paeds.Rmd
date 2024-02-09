@@ -43,11 +43,11 @@ htmltools::img(src = knitr::image_uri(paste0(here(), "/images/TU_logo_large.png"
 ## Introduction
 ***
 
-This analysis has been undertaken to understand recent trends and changes in the volume and waiting times for paediatric patients attending the Emergency Department (ED) due to mental health reasons across CMAST providers. The analysis uses the [Emergency Care Dataset](https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-sets/emergency-care-data-set-ecds) (ECDS) as the data source and the national definition of mental health attendances in ED was used to identify relevant activity. The analysis looks back over activity since April 2019 through to December 2023. More information on the methods used can be found in the [Methodology](#Methodology) section.
+This analysis has been undertaken to explore patients attending the Emergency Department (ED) due to mental health reasons across CMAST providers. There is a focus on the activity and waiting times associated with these patients. The analysis uses the [Emergency Care Dataset](https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-sets/emergency-care-data-set-ecds) (ECDS) as the data source and the national definition of mental health attendances in ED to identify relevant activity. The analysis looks back over activity since April 2019 through to December 2023. More information on the methods used can be found in the [Methodology](#Methodology) section.
 
 This report contains the following analysis:
 
-* __Mental health attendances as ED__: Analysis into the number of attendances across CMAST and constituent providers. This is further broken down to explore when patients present to the Emergency Department across the week.
+* __Mental health attendances to ED__: Analysis into the number of attendances across CMAST and constituent providers. This is further broken down to explore when patients present to the Emergency Department across the week.
 
 * __Waiting times in ED__: Analysis into how long patients are waiting in the department across CMAST and constituent providers.
 
@@ -65,7 +65,7 @@ This section explores the volume of attendances to Emergency Departments and how
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, however their is no discernable trend in the number of attendances each month. The latest 12 month rolling average has a figure of `r attends_system_rolling_latest[[1, 8]]` which has changed little in recent months.
+The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, however their is no discernible trend in the number of attendances each month. The latest 12 month rolling average has a figure of `r attends_system_rolling_latest[[1, 8]]` which has changed little in recent months.
 
 ```{r activity_system_ts, dpi = 1000}
 
@@ -120,7 +120,7 @@ We have also explored the profile of these attendances across the days of the we
 
 #### CMAST
 
-The chart below shows the number of attendances to the ED of CMAST providers by each hour of the day, across each day.The weekdays follow a similar pattern with fewer people attending between the hours of 06:00 and 08:00 and then an increase across the late morning. Attendance numbers then remain high throughout the afternoon and into the evening. The weekends have a slightly different pattern with attendances rising across the daytime and peaking in the late evening. 
+The chart below shows the number of attendances to the ED of CMAST providers by each hour of the day, across each day. The weekdays follow a similar pattern with fewer people attending between the hours of 06:00 and 08:00 and then an increase across the late morning. Attendance numbers then remain high throughout the afternoon and into the evening. The weekends have a slightly different pattern with attendances rising across the daytime and peaking in the late evening. 
 
 ```{r activity_system_dh, dpi = 1000}
 
@@ -217,7 +217,10 @@ This section provides an overview of how long patients waited in the Emergency D
 
 #### CMAST
 
-The plot below shows the median time spent in the department, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range. The median wait time was almost always below the 4 hour A&E target, with a significant waiting time reduction from the start of the COVID19 pandemic. This started to increase and reached pre pandemic times around Jan-2021. From Apr-2021 the interquartile range and 10th to 90th Percentile range shows a significant increase, with the upper quartile boundary exceeding the 4 hour target by 2.5 hours in Oct-2021, exceeding pre pandemic highs. Median wait times, along with ranges, have seen very little change since mid 2021, with median wait times now consistently breaching the 4 hour A&E target.
+The plot below shows the median time spent in the department, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range. Prior to the start of the pandemic the median waiting time was consistently less than four hours. Whilst there was a drop during the first few months of lockdown, the median waiting time began to increase from the middle of 2020. This increase has since plateaued with the median waiting time currently a little under four hours.
+
+More significantly has been the increase in the longer waiting times since the pandemic. The upper quartile and 90th percentile waiting times have been increasing since the middle of 2020 although they do appear to have plateaued. As a result there is now much greater variation in waiting times for patients presenting due to mental health reasons.
+
 ```{r wait_time_system, dpi = 1000}
 
 plot_act_wait_ts
@@ -283,7 +286,7 @@ plot_act_system_outcomes_ts
 
 <br/>
 
-The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of the stay. This could indicate that these patients are admitted into acute beds.There is appears to show a declining trend in the proportion of attendances that result in an admission. This could be an artifact in the data relating now recorded as transferred to another provider. Another explanation could be due increased bed pressures seen recently meaning their is reduced bed capacity to admit patients to the acute provider.
+The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of their stay. This could indicate that these patients are admitted into acute beds. There appears to be a declining trend in the proportion of attendances that result in an admission. This could be an artifact in the data. This may relate to now recording more attendances as transferred to another provider. Another explanation could be due increased bed pressures seen recently meaning there is reduced bed capacity to admit patients to the acute provider.
 
 ```{r outcome_system_admit, dpi = 1000}
 
@@ -307,7 +310,7 @@ plot_act_system_outcomes_ts_admit
 ## Data Quality
 ***
 
-As Mental Health attendances are being identified via specific SNOMED codes within the Chief Complaint, Diagnoses and Injury Intent fields within ECDS it is important to consider how many records are missing these codes. This will give an indication of potential Mental Health attendances that could not be identified. The table below gives a breakdown for the period of April 2019 - December 2023 for each of the providers the number of ED attendances for patients aged 17 or under. These are then classified as Mental Health (as per the national definition), physical health or missing. The missing group represent those attendances that do not have a Chief Complaint, Injury Intent or Diagnosis.
+Mental Health attendances are being identified via specific SNOMED codes within the Chief Complaint, Diagnoses and Injury Intent fields within ECDS. Therefore, it is important to consider how many records are missing these codes. This will give an indication of potential Mental Health attendances that could not be identified. The table below gives a breakdown for the period of April 2019 - December 2023 for each of the providers the number of ED attendances for patients aged 17 or under. These are then classified as Mental Health (as per the national definition), physical health or missing. The missing group represent those attendances that do not have a Chief Complaint, Injury Intent or Diagnosis.
 
 ```{r pro_dq}
 
