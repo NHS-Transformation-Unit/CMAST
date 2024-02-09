@@ -67,7 +67,7 @@ This section explores the volume of attendances to Emergency Departments and how
 
 The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, however their is no discernible trend in the number of attendances each month. The latest 12 month rolling average has a figure of `r attends_system_rolling_latest[[1, 8]]` which has changed little in recent months.
 
-```{r activity_system_ts, dpi = 1000}
+```{r activity_system_ts, dpi =  600}
 
 plot_act_ts_system
 
@@ -79,7 +79,7 @@ plot_act_ts_system
 #### Provider
 
 The below plot shows the number of attendances to the ED each month by CMAST providers. There is significant variation across these sites. Data at Liverpool University Hospitals doesn't identify any Mental Health attendances until late in 2019, with a subsequent increase again in Apr-2021. Mersey and West Lancashire Hospitals also sees an increase during the time period. Conversely, Wirral University Hospital sees a general decrease in attendances over the time period and Alder Hey shows a significant drop in attendances from Apr-2023.
-```{r activity_trust_ts, dpi = 1000}
+```{r activity_trust_ts, dpi =  600}
 
 plot_act_ts_trust
 
@@ -93,7 +93,7 @@ For the purposes of this analysis _out-of-hours_ attendances are defined as thos
 #### CMAST
 The chart below shows the proportion of attendances each month that occurred _out-of-hours_. Whilst there was a slight increase in the proportion of attendances arriving out-of-hours during the early months of the pandemic, there doesn't appear to be any discernible trend. There is significant month-on-month variation in the proportion of attendances arriving out-of-hours.
 
-```{r activity_system_o, dpi = 1000}
+```{r activity_system_o, dpi =  600}
 
 plot_act_system_out
 
@@ -105,7 +105,7 @@ plot_act_system_out
 
 The chart below shows the variation of out-of-hours attendances as a proportion of all attendances for each of the providers in CMAST. This volatility in the proportion attending out-of-hours across CMAST can be seen repeated for each provider. There does appear to be an increasing trend at Liverpool University Hospitals, with a higher proportion now attending out-of-hours compared with pre-pandemic.
 
-```{r activity_trust_pout, dpi = 1000}
+```{r activity_trust_pout, dpi =  600}
 
 plot_act_trust_pout
 
@@ -122,7 +122,7 @@ We have also explored the profile of these attendances across the days of the we
 
 The chart below shows the number of attendances to the ED of CMAST providers by each hour of the day, across each day. The weekdays follow a similar pattern with fewer people attending between the hours of 06:00 and 08:00 and then an increase across the late morning. Attendance numbers then remain high throughout the afternoon and into the evening. The weekends have a slightly different pattern with attendances rising across the daytime and peaking in the late evening. 
 
-```{r activity_system_dh, dpi = 1000}
+```{r activity_system_dh, dpi =  600}
 
 plot_act_profile_dh
 
@@ -135,7 +135,7 @@ plot_act_profile_dh
 The CMAST level analysis has been repeated for each of the constituent providers. Select the tab below to see the arrival profile for that provider.
 
 ##### Alder Hey
-```{r activity_trust_dh_rbs, dpi = 1000}
+```{r activity_trust_dh_rbs, dpi =  600}
 
 plot_act_trust_dh_profile("RBS")
 
@@ -145,7 +145,7 @@ plot_act_trust_dh_profile("RBS")
 
 
 ##### Countess of Chester
-```{r activity_trust_dh_rjr, dpi = 1000}
+```{r activity_trust_dh_rjr, dpi =  600}
 
 plot_act_trust_dh_profile("RJR")
 
@@ -154,7 +154,7 @@ plot_act_trust_dh_profile("RJR")
 <br/>
 
 ##### East Cheshire
-```{r activity_trust_dh_rjn, dpi = 1000}
+```{r activity_trust_dh_rjn, dpi =  600}
 
 plot_act_trust_dh_profile("RJN")
 
@@ -163,7 +163,7 @@ plot_act_trust_dh_profile("RJN")
 <br/>
 
 ##### Liverpool University
-```{r activity_trust_dh_rem, dpi = 1000}
+```{r activity_trust_dh_rem, dpi =  600}
 
 plot_act_trust_dh_profile("REM")
 
@@ -172,7 +172,7 @@ plot_act_trust_dh_profile("REM")
 <br/>
 
 ##### Mersey and West Lancashire
-```{r activity_trust_dh_rbn, dpi = 1000}
+```{r activity_trust_dh_rbn, dpi =  600}
 
 plot_act_trust_dh_profile("RBN")
 
@@ -181,7 +181,7 @@ plot_act_trust_dh_profile("RBN")
 <br/>
 
 ##### Mid Cheshire
-```{r activity_trust_dh_rbt, dpi = 1000}
+```{r activity_trust_dh_rbt, dpi =  600}
 
 plot_act_trust_dh_profile("RBT")
 
@@ -190,7 +190,7 @@ plot_act_trust_dh_profile("RBT")
 <br/>
 
 ##### Warrington and Halton
-```{r activity_trust_dh_rww, dpi = 1000}
+```{r activity_trust_dh_rww, dpi =  600}
 
 plot_act_trust_dh_profile("RWW")
 
@@ -199,7 +199,7 @@ plot_act_trust_dh_profile("RWW")
 <br/>
 
 ##### Wirral University
-```{r activity_trust_dh_rbl, dpi = 1000}
+```{r activity_trust_dh_rbl, dpi =  600}
 
 plot_act_trust_dh_profile("RBL")
 
@@ -221,7 +221,7 @@ The plot below shows the median time spent in the department, from arrival to de
 
 More significantly has been the increase in the longer waiting times since the pandemic. The upper quartile and 90th percentile waiting times have been increasing since the middle of 2020 although they do appear to have plateaued. As a result there is now much greater variation in waiting times for patients presenting due to mental health reasons.
 
-```{r wait_time_system, dpi = 1000}
+```{r wait_time_system, dpi =  600}
 
 plot_act_wait_ts
 
@@ -231,7 +231,7 @@ plot_act_wait_ts
 
 The chart below shows the same waiting time distributions as the previous chart but split between attendances out-of-hours (left-hand chart) and in-hours (right-hand chart). Whilst this shows increase in longer waiting times for both groups, the rise in longer waiting times is more noticeable for patients who attend out-of-hours.
 
-```{r wait_time_system_comp_inout, dpi = 1000}
+```{r wait_time_system_comp_inout, dpi =  600}
 
 grid.arrange(plot_act_wait_out_ts, plot_act_wait_in_ts, ncol = 2, top = "Comparison of Waiting Times in ED")
 
@@ -242,7 +242,7 @@ grid.arrange(plot_act_wait_out_ts, plot_act_wait_in_ts, ncol = 2, top = "Compari
 #### Provider
 The charts below show the distribution of waiting times for across each of the constituent providers. There are further charts then splitting these distributions for out-of-hours and in-hours.
 
-```{r wait_time_trust_overall, dpi = 1000}
+```{r wait_time_trust_overall, dpi =  600}
 
 plot_act_wait_trust_ts
 
@@ -250,7 +250,7 @@ plot_act_wait_trust_ts
 
 <br/>
 
-```{r wait_time_trust_ooh, dpi = 1000}
+```{r wait_time_trust_ooh, dpi =  600}
 
 plot_act_wait_out_trust_ts
 
@@ -258,7 +258,7 @@ plot_act_wait_out_trust_ts
 
 <br/>
 
-```{r wait_time_trust_inh, dpi = 1000}
+```{r wait_time_trust_inh, dpi =  600}
 
 plot_act_wait_in_trust_ts
 
@@ -278,7 +278,7 @@ In this section we explore the outcome of patients attendances at the Emergency 
 
 The chart below shows the outcome destination for patients attending ED. These have been grouped into categories covering discharge, admission, transfer or unknown (i.e. missing data). This chart shows that there does appear to be some coding changes since pre-pandemic with a greater use of **Provider Transfer** codes being used. This potentially indicates that there is better recording of when patients are transferred to another provider, most likely a Mental Health provider, at the end of their stay in the ED.
 
-```{r outcome_system, dpi = 1000}
+```{r outcome_system, dpi =  600}
 
 plot_act_system_outcomes_ts
 
@@ -288,7 +288,7 @@ plot_act_system_outcomes_ts
 
 The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of their stay. This could indicate that these patients are admitted into acute beds. There appears to be a declining trend in the proportion of attendances that result in an admission. This could be an artifact in the data. This may relate to now recording more attendances as transferred to another provider. Another explanation could be due increased bed pressures seen recently meaning there is reduced bed capacity to admit patients to the acute provider.
 
-```{r outcome_system_admit, dpi = 1000}
+```{r outcome_system_admit, dpi =  600}
 
 plot_act_system_outcomes_ts_admit
 
@@ -299,7 +299,7 @@ plot_act_system_outcomes_ts_admit
 #### Provider
 The chart below provides a breakdown of the admission rates across each of the constituent providers.
 
-```{r outcome_trust_admit, dpi = 1000}
+```{r outcome_trust_admit, dpi =  600}
 
 plot_act_system_outcomes_ts_admit
 
