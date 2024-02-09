@@ -44,17 +44,18 @@ plot_act_trust_d <-ggplot(Trust_Attendances_day, aes(x = day_of_week, y = Total_
 # Activity by in hours and out of hours -----------------------------------
 
 plot_act_trust_pout <- ggplot(Trust_Attendances_Monthly_percent, aes(x = Month, y = Percent_out, group = Provider_Name)) +
-  geom_area(col = palette_tu[5], fill = palette_tu[5], alpha = 0.5) + 
-  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  geom_line(col = palette_tu[5]) + 
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(label = percent) +
-  facet_wrap(~Provider_Name) +
-  labs(title = "Paediatric Mental Health attendances to ED (in hours)",
+  facet_wrap(~Provider_Name_Chart, scales = "free_x", ncol = 4) +
+  labs(title = "Out of Hours Attendances to ED",
+       subtitle = "Paediatric Mental Health",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Proportion of attendances occuring out of hours") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
         legend.position = "bottom") +
-  selected_theme(hex_col = palette_tu[1])
+  theme_tu_white_facet(hex_col = palette_tu[1])
 
 # Waiting times in ED -----------------------------------------------------
 
