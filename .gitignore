@@ -51,3 +51,6 @@ rsconnect/
 # Excel files
 *.csv
 *.xlsx
+
+# html files in src/output folder
+/src/outputs/*.html

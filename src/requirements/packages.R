@@ -9,7 +9,10 @@ packages <- c("here",
               "knitr",
               "scales",
               "viridis",
-              "lubridate")
-
+              "lubridate",
+              "ggrepel",
+              "tibbletime",
+              "gridExtra",
+              "kableExtra")
 
 lapply(packages, library, character.only=TRUE)
