@@ -88,7 +88,7 @@ plot_act_wait_trust_ts <-ggplot(Trust_Attendances_Monthly,aes(x = Month, group =
   scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
   scale_y_continuous(breaks = seq(0, 1000, 200)) +
   scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  facet_wrap(~Provider_Name_Chart, ncol = 4) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_x") +
   labs(title = "Waiting Times of Paediatric Mental Health attendances to ED",
        subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
@@ -104,7 +104,7 @@ plot_act_wait_out_trust_ts <-ggplot(Trust_Attendances_Monthly_out,aes(x = Month,
   scale_fill_manual("", values = c("#ae825a", "#F9BA81")) +
   scale_y_continuous(breaks = seq(0, 1400, 200)) +
   scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  facet_wrap(~Provider_Name_Chart, ncol = 4) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_x") +
   labs(title = "Waiting Times in ED",
        subtitle = "CMAST Providers - Out-of-hours",
        caption = "Source: SUS ECDS",
@@ -120,7 +120,7 @@ plot_act_wait_in_trust_ts <-ggplot(Trust_Attendances_Monthly_in,aes(x = Month, g
   scale_fill_manual("", values = c("#40742c", "#98d480")) +
   scale_y_continuous(breaks = seq(0, 1200, 200)) +
   scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  facet_wrap(~Provider_Name_Chart, ncol = 4) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_x") +
   labs(title = "Waiting Times in ED",
        subtitle = "CMAST Providers - In-hours",
        caption = "Source: SUS ECDS",
@@ -183,7 +183,7 @@ plot_act_trust_outcomes_ts <-ggplot(Trust_ED_Outcome_ts, aes(x = Month, y = Tota
                     name = "Onward destination") +
   selected_theme(hex_col = palette_tu[1])
 
-plot_act_system_outcomes_ts_admit <-ggplot(Trust_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
+plot_act_trust_outcomes_ts_admit <-ggplot(Trust_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
   geom_area(col = palette_tu[7], fill = palette_tu[7],alpha = 0.5) + 
   scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(label = percent) +

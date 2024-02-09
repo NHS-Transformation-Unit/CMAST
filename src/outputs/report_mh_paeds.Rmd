@@ -78,7 +78,7 @@ plot_act_ts_system
 
 #### Provider
 
-The below plot shows the number of attendances to the ED each month by CMAST providers. There is significant variation across these sites. Data at Liverpool University Hospitals doesn't identify any Mental Health attendances until late in 2019, with a subsequent increase again in Apr-2021. Mersey and West Lancashire Hospitals also sees an increase during the time period. Conversely, Wirral University Hospital sees a general decrease in attendances over the time period and Alder Hey shows a significant drop in attendances from Apr-2023.
+The below plot shows the number of attendances to the ED each month by CMAST providers. There is significant variation across these sites. Mersey and West Lancashire Hospitals also sees an increase during the time period. Conversely, Wirral University Hospital sees a general decrease in attendances over the time period and Alder Hey shows a significant drop in attendances from Apr-2023.
 ```{r activity_trust_ts, dpi =  600}
 
 plot_act_ts_trust
@@ -103,7 +103,7 @@ plot_act_system_out
 
 #### Provider
 
-The chart below shows the variation of out-of-hours attendances as a proportion of all attendances for each of the providers in CMAST. This volatility in the proportion attending out-of-hours across CMAST can be seen repeated for each provider. There does appear to be an increasing trend at Liverpool University Hospitals, with a higher proportion now attending out-of-hours compared with pre-pandemic.
+The chart below shows the variation of out-of-hours attendances as a proportion of all attendances for each of the providers in CMAST. This volatility in the proportion attending out-of-hours across CMAST can be seen repeated for each provider.
 
 ```{r activity_trust_pout, dpi =  600}
 
@@ -162,14 +162,6 @@ plot_act_trust_dh_profile("RJN")
 
 <br/>
 
-##### Liverpool University
-```{r activity_trust_dh_rem, dpi =  600}
-
-plot_act_trust_dh_profile("REM")
-
-```
-
-<br/>
 
 ##### Mersey and West Lancashire
 ```{r activity_trust_dh_rbn, dpi =  600}
@@ -276,7 +268,7 @@ In this section we explore the outcome of patients attendances at the Emergency 
 
 #### CMAST
 
-The chart below shows the outcome destination for patients attending ED. These have been grouped into categories covering discharge, admission, transfer or unknown (i.e. missing data). This chart shows that there does appear to be some coding changes since pre-pandemic with a greater use of **Provider Transfer** codes being used. This potentially indicates that there is better recording of when patients are transferred to another provider, most likely a Mental Health provider, at the end of their stay in the ED.
+The chart below shows the outcome destination for patients attending ED. These have been grouped into categories covering discharge, admission, transfer or unknown (i.e. missing data). This chart shows that there does appear to be some coding changes since pre-pandemic with a fewer unknown outcomes.
 
 ```{r outcome_system, dpi =  600}
 
@@ -286,7 +278,7 @@ plot_act_system_outcomes_ts
 
 <br/>
 
-The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of their stay. This could indicate that these patients are admitted into acute beds. There appears to be a declining trend in the proportion of attendances that result in an admission. This could be an artifact in the data. This may relate to now recording more attendances as transferred to another provider. Another explanation could be due increased bed pressures seen recently meaning there is reduced bed capacity to admit patients to the acute provider.
+The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of their stay. This could indicate that these patients are admitted into acute beds. There appears to be a declining trend in the proportion of attendances that result in an admission. One possible explanation could be due to increased bed pressures there is reduced bed capacity to admit patients to the acute provider.
 
 ```{r outcome_system_admit, dpi =  600}
 
@@ -301,7 +293,7 @@ The chart below provides a breakdown of the admission rates across each of the c
 
 ```{r outcome_trust_admit, dpi =  600}
 
-plot_act_system_outcomes_ts_admit
+plot_act_trust_outcomes_ts_admit
 
 ```
 

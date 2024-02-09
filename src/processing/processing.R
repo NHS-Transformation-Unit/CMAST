@@ -49,7 +49,8 @@ ECDS_MH_attendances_clean <- ECDS_MH_attendances %>%
                                          Provider_Name == "MERSEY AND WEST LANCASHIRE TEACHING HOSPITALS NHS TRUST" ~ "Mersey and West Lancs",
                                          Provider_Name == "MID CHESHIRE HOSPITALS NHS FOUNDATION TRUST" ~ "Mid Cheshire",
                                          Provider_Name == "WARRINGTON AND HALTON TEACHING HOSPITALS NHS FOUNDATION TRUST" ~ "Warrington & Halton",
-                                         Provider_Name == "WIRRAL UNIVERSITY TEACHING HOSPITAL NHS FOUNDATION TRUST" ~ "Wirral University"))
+                                         Provider_Name == "WIRRAL UNIVERSITY TEACHING HOSPITAL NHS FOUNDATION TRUST" ~ "Wirral University")) %>%
+  filter(Der_Provider_Code != 'REM')
 
 
 # Rolling 12 Function -----------------------------------------------------
