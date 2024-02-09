@@ -249,26 +249,28 @@ plot_diagnosis_dq <-ggplot(System_Data_Quality, aes(x = "", y = Total_attendance
 plot_act_system_outcomes_ts <-ggplot(System_ED_Outcome_ts, aes(x = Month, y = Total_attendances, fill = onward_destination)) +
   geom_area(alpha = 0.5) + 
   scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  scale_y_continuous(breaks = seq(0, 450, 50)) +
+  scale_y_continuous(breaks = seq(0, 450, 50), expand = c(0,0)) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
   annotate(geom = "label",
-           x = as.Date("2020-02-01"),
+           x = as.Date("2020-03-01"),
            y = 375,
            label = "Start of pandemic",
            hjust = 1,
-           vjust = 1) +
+           vjust = 1,
+           size = 3) +
   labs(title = "Outcome of a Paediatric Mental Health attendance at ED",
+       subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Total Attendances") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
         legend.position = "bottom") +
   scale_fill_manual(values = c(palette_tu[1],
-                               palette_tu[3],
                                palette_tu[5],
                                palette_tu[7],
+                               palette_tu[3],
                                palette_tu[2]),
-                    name = "Onward destination") +
+                    name = "Onward Destination") +
   selected_theme(hex_col = palette_tu[1])
 
 plot_act_system_outcomes_ts_admit <-ggplot(System_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
@@ -277,12 +279,14 @@ plot_act_system_outcomes_ts_admit <-ggplot(System_ED_Outcomes_ts_admit, aes(x = 
   scale_y_continuous(label = percent) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
   annotate(geom = "label",
-           x = as.Date("2020-02-01"),
+           x = as.Date("2020-03-01"),
            y = 0.5,
            label = "Start of pandemic",
            hjust = 1,
-           vjust = 1) +
+           vjust = 1,
+           size = 3) +
   labs(title = "Admitted Rate of Paediatric Mental Health ED Attendances",
+       subtitle = "CMAST Providers",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Proportion admitted to acute hospital") +
