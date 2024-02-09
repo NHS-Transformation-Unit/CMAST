@@ -269,6 +269,20 @@ Trust_Attendances_Monthly_out <- ECDS_MH_attendances_clean %>%
 
 # Combined attendances week and hour
 
+Trust_Attendances_day_hour <- ECDS_MH_attendances_clean %>%
+  drop_na(EC_Departure_Time_Since_Arrival) %>%
+  group_by(Provider_Name,
+           Provider_Name_Chart,
+           Der_Provider_Code,
+           day_of_week,
+           hour_of_day) %>%
+  summarise(Total_attendances = sum(MH_Flag),
+            P10_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.10),
+            P25_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.25),
+            P50_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.50),
+            P75_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.75),
+            P90_wait_time = quantile(EC_Departure_Time_Since_Arrival, 0.90))
+
 Trust_Attendances_hour <- ECDS_MH_attendances_clean %>%
   drop_na(EC_Departure_Time_Since_Arrival) %>%
   group_by(Provider_Name,

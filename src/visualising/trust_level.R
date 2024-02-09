@@ -19,6 +19,26 @@ plot_act_ts_trust
 
 # Activity Profile --------------------------------------------------------
 
+plot_act_trust_dh_profile <- function(Provider_Code){
+
+Trust_Attendances_day_hour_fil <- Trust_Attendances_day_hour %>%
+  filter(Der_Provider_Code == Provider_Code)
+
+ggplot(Trust_Attendances_day_hour_fil, aes(x = hour_of_day, y = Total_attendances)) +
+  geom_area(col = palette_tu[4], fill = palette_tu[4], alpha = 0.5) + 
+  scale_x_continuous(breaks = seq(0, 24, 2), expand = c(0,0)) +
+  facet_wrap(~day_of_week, scales = "free_x") +
+  labs(title = "Arrival Profile of Paediatric Mental Health attendances to ED",
+       subtitle = paste0(Trust_Attendances_day_hour_fil$Provider_Name_Chart),
+       caption = "Source: SUS ECDS",
+       x = "Arrival Hour",
+       y = "Number of attendances") +
+  selected_theme(hex_col = palette_tu[1]) 
+
+}
+
+plot_act_trust_dh_profile("R")
+
 plot_act_trust_h <-ggplot(Trust_Attendances_hour, aes(x = hour_of_day, y = Total_attendances, group = Provider_Name)) +
   geom_area(col = palette_tu[4], fill = palette_tu[4], alpha = 0.5) + 
   scale_x_continuous(breaks = seq(0, 24, 2), expand = c(0,0)) +
@@ -39,6 +59,8 @@ plot_act_trust_d <-ggplot(Trust_Attendances_day, aes(x = day_of_week, y = Total_
        x = "Day of week",
        y = "Number of attendances") +
   selected_theme(hex_col = palette_tu[1])
+
+
 
 
 # Activity by in hours and out of hours -----------------------------------
