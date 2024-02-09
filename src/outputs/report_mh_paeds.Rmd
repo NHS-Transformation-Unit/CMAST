@@ -1,6 +1,8 @@
 ---
-title: "Paediatric Mental Health Attendances - CMAST"
-author: "NHS Transformation Unit"
+title: |
+  | Paediatric Mental Health Attendances
+  | CMAST
+author: "<a href='https://github.com/ASW-Analyst'>Andy Wilson</a><br><a href='https://github.com/SiWickham'>Simon Wickham</a><br><a href='https://transformationunit.nhs.uk/'>NHS Transformation Unit</a>"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
  html_document:
@@ -20,10 +22,23 @@ source(paste0(here(), "/src/config/palette.R"))
 source(paste0(here(), "/src/config/tu_ggplot_themes.R"))
 source(paste0(here(), "/src/load/load.R"))
 source(paste0(here(), "/src/processing/processing.R"))
+source(paste0(here(), "/src/processing/dq.R"))
 source(paste0(here(), "/src/visualising/system_level.R"))
 source(paste0(here(), "/src/visualising/trust_level.R"))
+source(paste0(here(), "/src/outputs/text.R"))
 
 ```
+
+```{r logo, echo = FALSE}
+
+htmltools::img(src = knitr::image_uri(paste0(here(), "/images/TU_logo_large.png")), 
+               alt = 'logo', 
+               style = 'position:absolute; top:0; right:5%; padding:10px;',
+               width = "180px",
+               heigth = "180px")
+
+```
+
 
 ## Introduction
 ***
@@ -32,9 +47,9 @@ This analysis has been undertaken to understand recent trends and changes in the
 
 This report contains the following analysis:
 
-* __Mental health attendances as ED__: Analysis into the number of attendances across CMAST, individual providers and at site level. This is further broken down to explore when presentations occur by day of the week and hour of the day.
+* __Mental health attendances as ED__: Analysis into the number of attendances across CMAST and constituent providers. This is further broken down to explore when patients present to the Emergency Department across the week.
 
-* __Waiting times in ED__: Analysis into how long patients are waiting in the department across CMAST, individual providers and at site level.
+* __Waiting times in ED__: Analysis into how long patients are waiting in the department across CMAST and constituent providers.
 
 * __Outcomes from ED__: Analysis into where patients go to when they leave the department, such as admission rates.
 
@@ -44,13 +59,14 @@ This report contains the following analysis:
 
 ## Attendances at ED
 ***
-This section explores how attendances at the ED for mental health reasons have been changing since pre-pandemic.
+This section explores the volume of attendances to Emergency Departments and how these have changed over. The timing of presentations to the ED across the hours of the day is also included.
 
 ### Attendance volumes {.tabset .tabset-fade}
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, ranging from approximately 150 per month to 400 per month (with the exception of early COVID19 pandemic data at approximately 100 in Apr-2020). Although there is significant variation in the data, there is no clear increasing or decreasing trend over time.
+The plot below shows the number of attendances to the ED each month at CMAST providers. There is significant variation in attendances across the time period, however their is no discernable trend in the number of attendances each month. The latest 12 month rolling average has a figure of `r attends_system_rolling_latest[[1, 8]]` which has changed little in recent months.
+
 ```{r activity_system_ts, dpi = 1000}
 
 plot_act_ts_system
@@ -62,7 +78,7 @@ plot_act_ts_system
 
 #### Provider
 
-The below plot shows the number of attendances to the ED each month by CMAST providers. There is significant variation across these sites. Data at Liverpool University Hospitals doesn't identify any Mental Health attendances until late in 2019, with a subsequent increase again in Apr-2021. Mersey and West Lancashire Hospitals also sees an increase during the time period. Conversely, Wirral Univerity Hospital sees a general decrease in attendances over the time period and Alder Hey shows a significant drop in attendances from Apr-2023.
+The below plot shows the number of attendances to the ED each month by CMAST providers. There is significant variation across these sites. Data at Liverpool University Hospitals doesn't identify any Mental Health attendances until late in 2019, with a subsequent increase again in Apr-2021. Mersey and West Lancashire Hospitals also sees an increase during the time period. Conversely, Wirral University Hospital sees a general decrease in attendances over the time period and Alder Hey shows a significant drop in attendances from Apr-2023.
 ```{r activity_trust_ts, dpi = 1000}
 
 plot_act_ts_trust
@@ -71,23 +87,11 @@ plot_act_ts_trust
 
 <br/>
 
-#### Site Level
-
-<br/>
-
-### Arrival patterns - out of hours {.tabset .tabset-fade}
+### Arrivals to ED - Attendances out-of-hours {.tabset .tabset-fade}
+For the purposes of this analysis _out-of-hours_ attendances are defined as those where the patient arrived at the ED after 18:00 and before 08:00.
 
 #### CMAST
-
-The plot below shows the number of attendances to the ED each month at CMAST providers. With the exception of the beginning of the COVID19 pandemic and some summer months, attendances and split almost half way between in hours (08:00 to 18:00) and out of hours (18:00 to 08:00).
-```{r activity_system_io, dpi = 1000}
-
-plot_act_system_in_out
-
-```
-
-
-<br/>
+The chart below shows the proportion of attendances each month that occurred _out-of-hours_. Whilst there was a slight increase in the proportion of attendances arriving out-of-hours during the early months of the pandemic, there doesn't appear to be any discernible trend. There is significant month-on-month variation in the proportion of attendances arriving out-of-hours.
 
 ```{r activity_system_o, dpi = 1000}
 
@@ -99,7 +103,8 @@ plot_act_system_out
 
 #### Provider
 
-The plot below shows the variation of out of hours attendances as a proportion of all attendances.
+The chart below shows the variation of out-of-hours attendances as a proportion of all attendances for each of the providers in CMAST. This volatility in the proportion attending out-of-hours across CMAST can be seen repeated for each provider. There does appear to be an increasing trend at Liverpool University Hospitals, with a higher proportion now attending out-of-hours compared with pre-pandemic.
+
 ```{r activity_trust_pout, dpi = 1000}
 
 plot_act_trust_pout
@@ -108,15 +113,15 @@ plot_act_trust_pout
 
 <br/>
 
-#### Site Level
 
-<br/>
+### Arrivals to ED - Arrival Times {.tabset .tabset-fade}
 
-### Arrival patterns - arrival hour {.tabset .tabset-fade}
+We have also explored the profile of these attendances across the days of the week and the hours of the day to understand when people present. This analysis has been undertaken on data for the whole period from April 2019 - December 2023.
 
 #### CMAST
 
-The plot below shows the number of attendances to the ED of CMAST providers depending on the day of the week and the hour of the day. Number of attendances follows a similar pattern for week days, with general decreases in attendances between midnight (hour 0) and 06:00, with a sharp increase between 08:00 and 10:00. After this it remains high and consistent until the approach to 20:00 where a decrease starts. Weekends see gentler trends, with Sundays showing a peak in attendances at approximately 22:00 and a low at 06:00, with almost smooth transitions between.
+The chart below shows the number of attendances to the ED of CMAST providers by each hour of the day, across each day.The weekdays follow a similar pattern with fewer people attending between the hours of 06:00 and 08:00 and then an increase across the late morning. Attendance numbers then remain high throughout the afternoon and into the evening. The weekends have a slightly different pattern with attendances rising across the daytime and peaking in the late evening. 
+
 ```{r activity_system_dh, dpi = 1000}
 
 plot_act_profile_dh
@@ -125,30 +130,83 @@ plot_act_profile_dh
 
 <br/>
 
-#### Provider
+#### Provider {.tabset .tabset-fade}
 
-Most providers mimic the system level data at a weekly attendance level, with fewer attendances at weekends. This pattern is less obvious with The Countess of Chester Hospital, East Cheshire trust and Liverpool University Hospitals as there are fewer recorded Mental Health attendances at ED. Alder Hey data shows that although Wednesday is the most likely day for attendances, there is a general decreasing trend as the week progresses from Monday through to Sunday.
+The CMAST level analysis has been repeated for each of the constituent providers. Select the tab below to see the arrival profile for that provider.
 
-```{r activity_trust_d, dpi = 1000}
+##### Alder Hey
+```{r activity_trust_dh_rbs, dpi = 1000}
 
-plot_act_trust_d
-
-```
-
-<br/>
-
-Each of the providers shows a similar distribution across the times of day as the system level, with the lowest point between 06:00 and 08:00. Following an increase between 08:00 and 10:00, each provider experiences a period of high volume of attendances. The Countess of Chester Hospital, East Cheshire trust and Liverpool University Hospitals all experience low numbers of attendances and so this pattern is less obvious in the data.
-```{r activity_trust_h, dpi = 1000}
-
-plot_act_trust_h
+plot_act_trust_dh_profile("RBS")
 
 ```
 
 <br/>
 
-#### Site Level
+
+##### Countess of Chester
+```{r activity_trust_dh_rjr, dpi = 1000}
+
+plot_act_trust_dh_profile("RJR")
+
+```
 
 <br/>
+
+##### East Cheshire
+```{r activity_trust_dh_rjn, dpi = 1000}
+
+plot_act_trust_dh_profile("RJN")
+
+```
+
+<br/>
+
+##### Liverpool University
+```{r activity_trust_dh_rem, dpi = 1000}
+
+plot_act_trust_dh_profile("REM")
+
+```
+
+<br/>
+
+##### Mersey and West Lancashire
+```{r activity_trust_dh_rbn, dpi = 1000}
+
+plot_act_trust_dh_profile("RBN")
+
+```
+
+<br/>
+
+##### Mid Cheshire
+```{r activity_trust_dh_rbt, dpi = 1000}
+
+plot_act_trust_dh_profile("RBT")
+
+```
+
+<br/>
+
+##### Warrington and Halton
+```{r activity_trust_dh_rww, dpi = 1000}
+
+plot_act_trust_dh_profile("RWW")
+
+```
+
+<br/>
+
+##### Wirral University
+```{r activity_trust_dh_rbl, dpi = 1000}
+
+plot_act_trust_dh_profile("RBL")
+
+```
+
+<br/>
+
 
 ## Waiting times in Emergency Department
 ***
@@ -168,18 +226,20 @@ plot_act_wait_ts
 
 <br/>
 
-The plot below shows the median time spent in the department for out of hours attendances, from arrival to departure, accompanied by the interquartile range and the 10th to 90th percentile range. The change in the ranges of the above plot appears to be driven by the out of hours attendances in Apr-2021.
-```{r wait_time_system_out, dpi = 1000}
+The chart below shows the same waiting time distributions as the previous chart but split between attendances out-of-hours (left-hand chart) and in-hours (right-hand chart). Whilst this shows increase in longer waiting times for both groups, the rise in longer waiting times is more noticeable for patients who attend out-of-hours.
 
-plot_act_wait_out_ts
+```{r wait_time_system_comp_inout, dpi = 1000}
+
+grid.arrange(plot_act_wait_out_ts, plot_act_wait_in_ts, ncol = 2, top = "Comparison of Waiting Times in ED")
 
 ```
 
 <br/>
 
 #### Provider
+The charts below show the distribution of waiting times for across each of the constituent providers. There are further charts then splitting these distributions for out-of-hours and in-hours.
 
-```{r wait_time_trust, dpi = 1000}
+```{r wait_time_trust_overall, dpi = 1000}
 
 plot_act_wait_trust_ts
 
@@ -187,7 +247,7 @@ plot_act_wait_trust_ts
 
 <br/>
 
-```{r wait_time_trust, dpi = 1000}
+```{r wait_time_trust_ooh, dpi = 1000}
 
 plot_act_wait_out_trust_ts
 
@@ -195,20 +255,26 @@ plot_act_wait_out_trust_ts
 
 <br/>
 
-#### Site
+```{r wait_time_trust_inh, dpi = 1000}
+
+plot_act_wait_in_trust_ts
+
+```
 
 <br/>
+
 
 ## Onward destination following Emergency Department
 ***
 
-This section provides an overview of where patients went following their discharge from ED.
+In this section we explore the outcome of patients attendances at the Emergency Department. This includes a breakdown of where the patient went to following their stay and the admission rates across CMAST.
 
-### ED outcome pattern {.tabset .tabset-fade}
+### ED Outcome Destinations {.tabset .tabset-fade}
 
 #### CMAST
 
-The plot below shows the outcome of patients attending ED and the onward destination, whether that be an admission, discharge or transfer to an alternate provider. Patient outcomes have not seen much change at the system level across the period, with the exception of reduced numbers following the start of the COVID19 pandemic. Most patients are discharged from the hospital, whether that be to their home or other place of residence or into police custody. Since Apr-2021 there have been more transfers of care per month between providers following an attendance at ED, though a significant proportion are still admitted to the hospital of presentation following an ED attendance.
+The chart below shows the outcome destination for patients attending ED. These have been grouped into categories covering discharge, admission, transfer or unknown (i.e. missing data). This chart shows that there does appear to be some coding changes since pre-pandemic with a greater use of **Provider Transfer** codes being used. This potentially indicates that there is better recording of when patients are transferred to another provider, most likely a Mental Health provider, at the end of their stay in the ED.
+
 ```{r outcome_system, dpi = 1000}
 
 plot_act_system_outcomes_ts
@@ -217,7 +283,9 @@ plot_act_system_outcomes_ts
 
 <br/>
 
-```{r outcome_system, dpi = 1000}
+The chart below shows the percentage of attendances that were admitted at the end of their stay in the ED. This _should_ represent those patients who are admitted to the acute provider at the end of the stay. This could indicate that these patients are admitted into acute beds.There is appears to show a declining trend in the proportion of attendances that result in an admission. This could be an artifact in the data relating now recorded as transferred to another provider. Another explanation could be due increased bed pressures seen recently meaning their is reduced bed capacity to admit patients to the acute provider.
+
+```{r outcome_system_admit, dpi = 1000}
 
 plot_act_system_outcomes_ts_admit
 
@@ -226,47 +294,41 @@ plot_act_system_outcomes_ts_admit
 <br/>
 
 #### Provider
+The chart below provides a breakdown of the admission rates across each of the constituent providers.
 
-```{r outcome_trust, dpi = 1000}
+```{r outcome_trust_admit, dpi = 1000}
 
-plot_act_trust_outcomes_ts
-
-```
-
-<br/>
-
-#### Site
-
-<br/>
-
-### ED outcome by day and by time {.tabset .tabset-fade}
-
-#### CMAST
-
-The plot below shows the outcome depending on the day of the week and the hour of the day.
-```{r outcome_system_day, dpi = 1000}
-
-plot_outcome_profile_d
-
-```
-
-```{r outcome_system_hour, dpi = 1000}
-
-plot_outcome_profile_h
+plot_act_system_outcomes_ts_admit
 
 ```
 
 <br/>
 
-#### Provider
+## Data Quality
+***
 
-<br/>
+As Mental Health attendances are being identified via specific SNOMED codes within the Chief Complaint, Diagnoses and Injury Intent fields within ECDS it is important to consider how many records are missing these codes. This will give an indication of potential Mental Health attendances that could not be identified. The table below gives a breakdown for the period of April 2019 - December 2023 for each of the providers the number of ED attendances for patients aged 17 or under. These are then classified as Mental Health (as per the national definition), physical health or missing. The missing group represent those attendances that do not have a Chief Complaint, Injury Intent or Diagnosis.
 
-#### Site
+```{r pro_dq}
+
+ecds_dq_pro %>%
+  rename("Mental Health" = 7,
+         "Provider Code" = 1,
+         "Provider Name" = 2,) %>%
+  mutate(Missing_Rate_format = round(Missing_Rate * 100,2)) %>%
+  rename("Missing Rate (%)" = 11) %>%
+  select(c(1,2,7,8,9,11)) %>%
+  kable(format = "html", align = "llrrrr") %>%
+  kable_styling() %>%
+  row_spec(0, background = palette_tu[1], color = "white") %>%
+  scroll_box(height = "400px")
+
+```
 
 <br/>
 
 ## Methodology {#Methodology}
+***
 
 ### Data Sources
 This analysis has been undertaken on the [Emergency Care Dataset](https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-sets/emergency-care-data-set-ecds) (ECDS).
