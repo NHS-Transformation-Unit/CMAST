@@ -12,6 +12,7 @@ packages <- c("here",
               "lubridate",
               "ggrepel",
               "tibbletime",
-              "gridExtra")
+              "gridExtra",
+              "kableExtra")
 
 lapply(packages, library, character.only=TRUE)
