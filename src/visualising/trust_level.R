@@ -187,7 +187,7 @@ plot_act_system_outcomes_ts_admit <-ggplot(Trust_ED_Outcomes_ts_admit, aes(x = M
   geom_area(col = palette_tu[7], fill = palette_tu[7],alpha = 0.5) + 
   scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(label = percent) +
-  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_X") +
+  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_x") +
   labs(title = "Admitted Rate of Paediatric Mental Health ED Attendances",
          subtitle = "CMAST Providers",
          caption = "Source: SUS ECDS",
