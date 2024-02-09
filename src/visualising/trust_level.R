@@ -183,6 +183,19 @@ plot_act_trust_outcomes_ts <-ggplot(Trust_ED_Outcome_ts, aes(x = Month, y = Tota
                     name = "Onward destination") +
   selected_theme(hex_col = palette_tu[1])
 
+plot_act_system_outcomes_ts_admit <-ggplot(Trust_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
+  geom_area(col = palette_tu[7], fill = palette_tu[7],alpha = 0.5) + 
+  scale_x_date(date_breaks = "12 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  scale_y_continuous(label = percent) +
+  facet_wrap(~Provider_Name_Chart, ncol = 4, scales = "free_X") +
+  labs(title = "Admitted Rate of Paediatric Mental Health ED Attendances",
+         subtitle = "CMAST Providers",
+         caption = "Source: SUS ECDS",
+         x = "Month",
+         y = "Proportion admitted to acute hospital") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+          legend.position = "bottom") +
+  theme_tu_white_facet(hex_col = palette_tu[1])
 
 # ED Outcome day of week --------------------------------------------------
 

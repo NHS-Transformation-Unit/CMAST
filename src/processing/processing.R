@@ -413,6 +413,26 @@ Trust_ED_Outcome_ts <- ECDS_MH_attendances_clean %>%
            onward_destination) %>%
   summarise(Total_attendances = sum(MH_Flag))
 
+Trust_ED_Outcomes_ts_admit <- Trust_ED_Outcome_ts %>%
+  select(Provider_Name,
+         Provider_Name_Chart,
+         Month,
+         onward_destination,
+         Total_attendances) %>%
+  spread(onward_destination, Total_attendances) %>%
+  replace_na(list(`Hospital admission` = 0, 
+                  `ED admission` = 0,
+                  `Discharged` = 0,
+                  `Provider transfer` = 0,
+                  `Unknown` = 0,
+                  `<NA>` = 0)) %>%
+  mutate("Percent_admit" = `Hospital admission` / (`Hospital admission` + 
+                                                     `ED admission` +
+                                                     `Discharged`+
+                                                     `Provider transfer` +
+                                                     `Unknown` +
+                                                     `<NA>`))
+
 # Onward Destination day of week
 
 Trust_ED_Outcome_d <- ECDS_MH_attendances_clean %>%
