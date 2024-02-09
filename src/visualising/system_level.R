@@ -64,17 +64,19 @@ plot_act_system_in_out <-ggplot(System_Attendances_Monthly_Hours, aes(x = Month,
   selected_theme(hex_col = palette_tu[1])
 
 plot_act_system_out <-ggplot(System_Attendances_Monthly_percent, aes(x = Month, y = Percent_out)) +
-  geom_area(col = palette_tu[5], fill = palette_tu[5], alpha = 0.5) + 
+  geom_line(col = palette_tu[5]) + 
   scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(label = percent) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
   annotate(geom = "label",
            x = as.Date("2020-02-01"),
-           y = 0.5,
+           y = 0.41,
            label = "Start of pandemic",
            hjust = 1,
-           vjust = 1) +
-  labs(title = "Paediatric Mental Health attendances to ED",
+           vjust = 1,
+           size = 3) +
+  labs(title = "Out of Hours Attendances to ED",
+       subtitle = "Paediatric Mental Health",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Proportion of attendances occuring out of hours") +
@@ -171,20 +173,38 @@ plot_act_wait_ts <-ggplot(System_Attendances_Monthly,aes(x = Month)) +
   selected_theme(hex_col = palette_tu[1]) 
 
 plot_act_wait_out_ts <-ggplot(System_Attendances_Monthly_out,aes(x = Month)) +
-  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Percentile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
-  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "Interquartile Range"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
-  geom_line(aes(y = P50_wait_time, col = "Median Waiting Time"), linewidth = 1.2) + 
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Pth"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "IQR"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_line(aes(y = P50_wait_time, col = "Median"), linewidth = 1.2) + 
   scale_color_manual("", values = "black") +
-  scale_fill_manual("", values = c(palette_tu[4], palette_tu[2])) +
+  scale_fill_manual("", values = c("#ae825a", "#F9BA81")) +
   geom_hline(yintercept = 240, linetype = "dashed") +
-  scale_y_continuous(breaks = seq(0, 700, 50)) +
-  scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
-  labs(title = "Waiting Times of Paediatric Mental Health attendances to ED (out of hours)",
-       subtitle = "CMAST Providers",
+  scale_y_continuous(breaks = seq(0, 900, 50), limits = c(0, 900)) +
+  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  labs(title = "Waiting Times in ED",
+       subtitle = "CMAST Providers - Out-of-hours",
+       caption = "",
+       x = "Month",
+       y = "Total minutes spent in department") +
+  selected_theme(hex_col = palette_tu[1])
+
+plot_act_wait_in_ts <-ggplot(System_Attendances_Monthly_in,aes(x = Month)) +
+  geom_ribbon(aes(ymin = P10_wait_time, ymax = P90_wait_time, fill = "10th - 90th Pth"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_ribbon(aes(ymin = P25_wait_time, ymax = P75_wait_time, fill = "IQR"), col = "#ffffff", alpha = 0.5, linewidth = 0.2)+
+  geom_line(aes(y = P50_wait_time, col = "Median"), linewidth = 1.2) + 
+  scale_color_manual("", values = "black") +
+  scale_fill_manual("", values = c("#40742c", "#98d480")) +
+  geom_hline(yintercept = 240, linetype = "dashed") +
+  scale_y_continuous(breaks = seq(0, 900, 50), limits = c(0, 900)) +
+  scale_x_date(date_breaks = "6 months", date_labels = "%Y-%b", expand = c(0,0)) +
+  labs(title = "Waiting Times in ED",
+       subtitle = "CMAST Providers - In-hours",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Total minutes spent in department") +
-  selected_theme(hex_col = palette_tu[1]) 
+  selected_theme(hex_col = palette_tu[1])
+
+plot_act_wait_combined_inout <- grid.arrange(plot_act_wait_out_ts, plot_act_wait_in_ts, ncol = 2, top = "Comparison of Waiting Times in ED")
 
 # Data Quality Time Series ------------------------------------------------------------
 
@@ -252,7 +272,7 @@ plot_act_system_outcomes_ts <-ggplot(System_ED_Outcome_ts, aes(x = Month, y = To
   selected_theme(hex_col = palette_tu[1])
 
 plot_act_system_outcomes_ts_admit <-ggplot(System_ED_Outcomes_ts_admit, aes(x = Month, y = Percent_admit)) +
-  geom_area(col = palette_tu[5], fill = palette_tu[5],alpha = 0.5) + 
+  geom_area(col = palette_tu[7], fill = palette_tu[7],alpha = 0.5) + 
   scale_x_date(date_breaks = "3 months", date_labels = "%Y-%b", expand = c(0,0)) +
   scale_y_continuous(label = percent) +
   geom_vline(xintercept = as.Date("2020-03-15"), linetype = "dashed") +
@@ -262,7 +282,7 @@ plot_act_system_outcomes_ts_admit <-ggplot(System_ED_Outcomes_ts_admit, aes(x = 
            label = "Start of pandemic",
            hjust = 1,
            vjust = 1) +
-  labs(title = "Paediatric Mental Health attendance at ED that are admitted",
+  labs(title = "Admitted Rate of Paediatric Mental Health ED Attendances",
        caption = "Source: SUS ECDS",
        x = "Month",
        y = "Proportion admitted to acute hospital") +
